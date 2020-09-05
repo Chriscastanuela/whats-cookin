@@ -28,25 +28,29 @@ describe('User', () => {
   });
 
   it('Should be able to add recipes to favoriteRecipes', () =>{
-    user1.addToFavorites(recipeData[0])
+    user1.addToCategory(recipeData[0], 'favoriteRecipes')
     expect(user1.favoriteRecipes.includes(recipeData[0])).to.eql(true);
   });
 
+  it('Should have a property of recipesToCook with a default value', () => {
+    expect(user1.recipesToCook).to.eql([]);
+  });
+
   it('Should be able to remove recipes from favoriteRecipes', () =>{
-    user1.removeFromFavorites(recipeData);
+    user1.removeFromCategory(recipeData, 'favoriteRecipes');
     expect(user1.favoriteRecipes).to.eql([]);
   });
 
   it('Should be able to filter through favoriteRecipes by tag', () => {
-    user1.addToFavorites(recipeData[0]);
-    user1.addToFavorites(recipeData[1]);
-    expect(user1.filterFavorites('antipasti')).to.eql([recipeData[0]]);
+    user1.addToCategory(recipeData[0], 'favoriteRecipes');
+    user1.addToCategory(recipeData[1], 'favoriteRecipes');
+    expect(user1.filterRecipes('antipasti', 'favoriteRecipes')).to.eql([recipeData[0]]);
   });
 
   it('Should be able to search favoriteRecipes by name or ingredient', () => {
-    user1.addToFavorites(recipeData[0]);
-    user1.addToFavorites(recipeData[1]);
-    expect(user1.findFavorites('egg')).to.eql([recipeData[0]]);
+    user1.addToCategory(recipeData[0], 'favoriteRecipes');
+    user1.addToCategory(recipeData[1], 'favoriteRecipes');
+    expect(user1.findInCategory('egg', 'favoriteRecipes')).to.eql([recipeData[0]]);
   });
 
   it('Should be able to check ingredients in User/s pantry for a given recipe', () => {

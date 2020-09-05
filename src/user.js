@@ -7,25 +7,25 @@ class User {
     this.recipesToCook = [];
   }
 
-  addToFavorites(recipe) {
-    if (!this.favoriteRecipes.includes(recipe)) {
-      this.favoriteRecipes.push(recipe)
+  addToCategory(recipe, property) {
+    if (!this[property].includes(recipe)) {
+      this[property].push(recipe)
     }
   }
 
-  removeFromFavorites(recipe) {
-    const i = this.favoriteRecipes.indexOf(recipe);
-    this.favoriteRecipes.splice(i, 1)
+  removeFromCategory(recipe, property) {
+    const i = this[property].indexOf(recipe);
+    this[property].splice(i, 1)
   }
 
-  filterFavorites(tag) {
-    return this.favoriteRecipes.filter(recipe => {
+  filterRecipes(tag, property) {
+    return this[property].filter(recipe => {
       return recipe.tags.includes(tag);
     });
   }
 
-  findFavorites(strgToSrch) {
-    return this.favoriteRecipes.filter(recipe => {
+  findInCategory(strgToSrch, property) {
+    return this[property].filter(recipe => {
       return recipe.name.includes(strgToSrch)
       || recipe.ingredients.find(ingredient => {
         return ingredient.name.includes(strgToSrch)
