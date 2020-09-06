@@ -9,7 +9,6 @@ class Pantry {
     let thisRecipe = recipeData.find(index => {
       return index.id || index.name == nameOrId;
     }).ingredients;
-    console.log("Ingredients", thisRecipe);
     thisRecipe.forEach(index => {
       if (!this.contents[index]) {
         toggle = "No"
@@ -23,6 +22,22 @@ class Pantry {
     });
     return toggle;
   };
+  
+  howManyIngredientsLeft(nameOrId) {
+    let contentsIds = this.contents.map(index => {
+      return index.ingredient;
+    })
+    let notInThere = [];
+    let ings = recipeData.find(index => {
+      return index.id || index.name == nameOrId;
+    }).ingredients;
+    ings.forEach(i => {
+      if (!contentsIds.includes(i.id)) {
+        notInThere.push(i);
+      }
+    });
+    return notInThere.length;
+  }
 }
 
 export default Pantry;

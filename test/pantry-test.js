@@ -2,9 +2,9 @@ import { expect } from 'chai';
 
 import Pantry from '../src/pantry.js';
 import User from '../src/user.js';
-import Recipe from '../src/recipe.js';
-import recipeData from '../src/data/recipes.js';
-import ingredientsData from '../src/data/ingredients.js';
+// import Recipe from '../src/recipe.js';
+// import recipeData from '../src/data/recipes.js';
+// import ingredientsData from '../src/data/ingredients.js';
 
 let pantry;
 
@@ -35,7 +35,7 @@ describe('Pantry', () => {
         expect(pantry.doIHaveEnoughForThis("Loaded Chocolate Chip Pudding Cookie Cups")).to.eql("No");
     });
 
-    // it('2. should ...', () => {
-    //     expect(pantry.....).to.eql();
-    // });
+    it('2. should determine the amount of ingredients still needed to cook a given meal, based on what’s in my pantry', () => {
+        expect(pantry.howManyIngredientsLeft("Loaded Chocolate Chip Pudding Cookie Cups")).to.eql(10);
+    });
 });
