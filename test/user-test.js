@@ -5,11 +5,9 @@ import recipeData from '../src/data/recipes.js'
 import Recipe from '../src/recipe.js';
 import ingredientsData from '../src/data/ingredients';
 
-let user1
-
-let recipe = new Recipe(recipeData[47], ingredientsData);
-
-let recipe2 = new Recipe(recipeData[0], ingredientsData);
+let user1;
+let recipe;
+let firstRecipe;
 
 describe('User', () => {
   beforeEach(() => {
@@ -70,9 +68,39 @@ describe('User', () => {
       {
         "ingredient": 2050,
         "amount": 0.5,
+      },
+      //
+      {
+        "ingredient": 1041009,
+        "amount": 2,
+      },
+      {
+        "ingredient": 10018413,
+        "amount": 1,
+      },
+      {
+        "ingredient": 2044,
+        "amount": 3,
+      },
+      {
+        "ingredient": 10111529,
+        "amount": 0.5,
+      },
+      {
+        "ingredient": 4053,
+        "amount": 1,
+      },
+      {
+        "ingredient": 19208401924,
+        "amount": 1,
       }
     ]
     );
+
+    recipe = new Recipe(recipeData[47], ingredientsData);
+
+    firstRecipe = new Recipe(recipeData[0], ingredientsData);
+
   });
 
   it('1. Should have a property of favoriteRecipes with a default value', () => {
@@ -107,7 +135,7 @@ describe('User', () => {
 
   it('7. Should be able to check the pantry and tell you if you have the ingredients for a given recipe', () => {
     
-    expect(user1.checkPantry(recipe2.ingredients)).to.eql(true);
+    expect(user1.checkPantry(firstRecipe.ingredients)).to.eql(true);
 
   });
 
@@ -131,7 +159,7 @@ describe('User', () => {
 
   it('11. Should be able to cook the meal if the pantry has enough ingredients', () => {
     
-    user1.cookMeal(recipe2.ingredients)
+    user1.cookMeal(firstRecipe.ingredients)
 
     expect(user1.pantry[13].amount).to.eql(0);
 
@@ -139,7 +167,8 @@ describe('User', () => {
   
   it('12. Should be able to check quantities for each ingredient', () => {
 
-    expect(user1.returnAmount(recipe2.ingredients)).to.eql(/**/);
+    // console.log(".......................", recipe);
+    expect(user1.returnAmount(recipe.ingredients)).to.eql(recipeData[47]);
 
   });
 });
@@ -152,5 +181,27 @@ End result: a list of what ingredients they need to buy, and how much it will co
 
 */
 
-
-
+// returnAmount(recipeIngredients) {
+//   let newArray = [];
+//   // let newObject;
+//   recipeIngredients.forEach(recipeIngredient => {
+//     this.pantry.forEach(i => {  
+//       if (i.ingredient == recipeIngredient.id) {
+//         let newObject = {
+//           name: recipeIngredient.name,
+//           id: recipeIngredient.id,
+//           hasEnough: i.amount -= recipeIngredient.quantity.amount
+//           }
+//       } else {
+//         let newObject = {
+//           name: recipeIngredient.name,
+//           id: recipeIngredient.id,
+//           hasEnough: "You don't have any of this item"
+//         }
+//       }
+//     })
+//     newArray.push(newObject);
+//   })
+//   console.log(newArray);
+//   return newArray;
+// }

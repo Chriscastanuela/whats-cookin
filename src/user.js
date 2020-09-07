@@ -63,84 +63,80 @@ class User {
       })
     })
   }
-  // returnAmount(recipeIngredients) {
-  //   let whatWeNeed = [];
-  //   recipeIngredients.forEach(ingredient => {
-  //     this.pantry.forEach(index => {
-  //       if (index.ingredient == ingredient.id) {
-  //         // console.log("index.amount", index.amount);
-  //         // console.log("ingredient.quantity.amount", ingredient.quantity.amount);
-  //         // console.log("Hello");
-  //         let newObject = {
-  //           name: ingredient.name,
-  //           id: ingredient.id,
-  //           amount: index.amount -= ingredient.quantity.amount
-  //         }
-  //         if (!whatWeNeed.includes(newObject)){
-  //           whatWeNeed.push(newObject)
-  //         }
-  //         // index.amount -= ingredient.quantity.amount;
-  //       } if (index.ingredient != ingredient.id) {
-  //         whatWeNeed.push({
-  //           name: ingredient.name,
-  //           id: ingredient.id,
-  //           amount: "You don't have any of this"
-  //         })
-  //       }
-  //     })
-  //   })
-  //   console.log(whatWeNeed);
-  //   return whatWeNeed;
-  // }
 
   // returnAmount(recipeIngredients) {
-  //   this.pantry.forEach(i => {
-  //     let mapping = recipeIngredients.map(ingredient => {
-  //       let newObject;
-  //       if (i.ingredient == ingredient.id) {
+  //   let newArray = [];
+  //   let newObject;
+  //   recipeIngredients.forEach(recipeIngredient => {
+  //     let mapping = this.pantry.map(i => {
+        
+  //       if (i.ingredient == recipeIngredient.id) {
   //         newObject = {
-  //           name: ingredient.name,
-  //           id: ingredient.id,
-  //           hasEnough: this.pantry[ingredient.amount] -= ingredient.quantity.amount
-  //         } 
+  //           name: recipeIngredient.name,
+  //           id: recipeIngredient.id,
+  //           hasEnough: i.amount -= recipeIngredient.quantity.amount
+  //           }
   //         } else {
   //           newObject = {
-  //             name: ingredient.name,
-  //             id: ingredient.id,
+  //             name: recipeIngredient.name,
+  //             id: recipeIngredient.id,
   //             hasEnough: "You don't have any of this item"
   //           }
   //         }
-  //         return newObject;
   //     })
-  //     console.log(mapping);
-  //     return mapping;
+  //     newArray.push(newObject);
   //   })
+  //   console.log(newArray);
+  //   return newArray;
   // }
 
+  // returnAmount(recipeIngredients) {
+  //   let newArray;
+  //   let newObject;
+  //   recipeIngredients.forEach(recipeIngredient => {
+  //     newArray = this.pantry.reduce((acc, i) => {  
+  //       if (i.ingredient == recipeIngredient.id) {
+          
+  //         acc.push({
+  //           name: recipeIngredient.name,
+  //           id: recipeIngredient.id,
+  //           hasEnough: i.amount -= recipeIngredient.quantity.amount
+  //         })
+  //       }
+  //       return acc;
+  //     }, []);
+  //   })
+    
+  //   return newArray;
+  // }
+// }
+
+
   returnAmount(recipeIngredients) {
-    let newArray = [];
-    recipeIngredients.forEach(ingredient => {
-      this.pantry.forEach(i => {
-        let newObject;
-        if (i.ingredient == ingredient.id) {
-          newObject = {
-            name: ingredient.name,
-            id: ingredient.id,
-            hasEnough: this.pantry[ingredient.amount] -= ingredient.quantity.amount
-          } 
-          } else {
-            newObject = {
-              name: ingredient.name,
-              id: ingredient.id,
-              hasEnough: "You don't have any of this item"
-            }
-          }
-          newArray.push(newObject);
-      })
+    recipeIngredients.map(ingredientFromRecipie => {
+      let pantryItemsThatWeHaveForTheRecipie = this.pantry.filter(pantryItem => {
+        return pantryItem.ingredient === ingredientFromRecipie.id;
+        });
+      // console.log(pantryItemsThatWeHaveForTheRecipie);
+      let someStuff = pantryItemsThatWeHaveForTheRecipie.reduce((acc, specificPantryItemFromTheRecipie) => {
+        if (ingredientFromRecipie.id === specificPantryItemFromTheRecipie.ingredient) {
+          console.log('if')
+          acc.push({
+            id: ingredientFromRecipie.id,
+            name: ingredientFromRecipie.name,
+            howMuchWeHaveLeftOver: ingredientFromRecipie.quantity.amount -= specificPantryItemFromTheRecipie.amount
+          })
+        } else {
+          console.log('else');
+          acc.push({howMuchWeHaveLeftOver: "We ain't got none of those!!"})
+        }
+        return acc;
+      }, []);
+      console.log(someStuff);
     })
-    console.log(newArray);
-    return newArray;
   }
 }
+
+
 
 export default User;
