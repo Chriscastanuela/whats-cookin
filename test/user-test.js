@@ -107,13 +107,33 @@ describe('User', () => {
 
   it('7. Should be able to check the pantry and tell you if you have the ingredients for a given recipe', () => {
     
-    expect(user1.checkPantry(recipe2.ingredients)).to.eql('You have the ingredients!');
+    expect(user1.checkPantry(recipe2.ingredients)).to.eql(true);
 
   });
 
   it('8. Should be able to check the pantry and tell you if you do not have the ingredients for a given recipe', () => {
 
-    expect(user1.checkPantry(recipe.ingredients)).to.eql('You do not have the ingredients.');
+    expect(user1.checkPantry(recipe.ingredients)).to.eql(false);
+
+  });
+
+  it.skip('9. Should be able to give you a list of what ingredients a user needs to buy and how much it will cost for a given recipe', () => {
+
+    expect(user1.checkPantry(recipe.ingredients)).to.eql(/* <-----------------------------> */);
+
+  });
+
+  it('10. Should be able to cook the meal if the pantry has enough ingredients', () => {
+
+    expect(user1.cookMeal(recipe.ingredients)).to.eql("Not enough ingredients for this");
+
+  });
+
+  it('11. Should be able to cook the meal if the pantry has enough ingredients', () => {
+    
+    user1.cookMeal(recipe2.ingredients)
+
+    expect(user1.pantry[13].amount).to.eql(0);
 
   });
 });

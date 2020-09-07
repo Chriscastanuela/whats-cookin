@@ -7,7 +7,7 @@ class Pantry {
   doIHaveEnoughForThis(nameOrId) {
     let toggle = "Yes";
     let thisRecipe = recipeData.find(index => {
-      return index.id || index.name == nameOrId;
+      return index.id == nameOrId || index.name == nameOrId;
     }).ingredients;
     thisRecipe.forEach(index => {
       if (!this.contents[index]) {
@@ -29,7 +29,7 @@ class Pantry {
     })
     let notInThere = [];
     let ings = recipeData.find(index => {
-      return index.id || index.name == nameOrId;
+      return index.id  == nameOrId || index.name == nameOrId;
     }).ingredients;
     ings.forEach(i => {
       if (!contentsIds.includes(i.id)) {

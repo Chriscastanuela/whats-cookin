@@ -34,8 +34,7 @@ class User {
   }
 
   checkPantry(recipeIngredients) {
-    let toggle;
-    toggle = 'You have the ingredients!';
+    let toggle = true;
     let pantryIds = this.pantry.map(index => {
       return index.ingredient;
     })
@@ -44,13 +43,26 @@ class User {
     })
     recipeIds.forEach(oneI => {
       if (!pantryIds.includes(oneI)) {
-        toggle = 'You do not have the ingredients.'
+        toggle = false
       }
     })
     return toggle;
   }
+
+  cookMeal(recipeIngredients) {
+    if (!this.checkPantry(recipeIngredients)) {
+      return "Not enough ingredients for this"
+    }
+    recipeIngredients.forEach(ingredient => {
+      this.pantry.forEach(index => {
+        if (index.ingredient == ingredient.id) {
+          console.log("index.amount", index.amount);
+          console.log("ingredient.quantity.amount", ingredient.quantity.amount);
+          index.amount -= ingredient.quantity.amount;
+        } 
+      })
+    })
+  }
 }
-// 'You have the ingredients!'
-// 'You do not have the ingredients.'
 
 export default User;
