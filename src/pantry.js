@@ -28,7 +28,7 @@ class Pantry {
       return index.ingredient;
     })
     let notInThere = [];
-    let ings = recipeData.find(index => {
+    let ings = recipeData.filter(index => {
       return index.id  == nameOrId || index.name == nameOrId;
     }).ingredients;
     ings.forEach(i => {

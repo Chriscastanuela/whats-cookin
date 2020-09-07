@@ -14,7 +14,7 @@ let recipe2 = new Recipe(recipeData[0], ingredientsData);
 describe('User', () => {
   beforeEach(() => {
 
-    user1 = new User(1, 'Boba', [
+    user1 = new User(1, 'Boba', /*pantry*/[
       {
         'ingredient': 1077,
         'amount': 1
@@ -117,11 +117,11 @@ describe('User', () => {
 
   });
 
-  it.skip('9. Should be able to give you a list of what ingredients a user needs to buy and how much it will cost for a given recipe', () => {
+  // it.skip('9. Should be able to give you a list of what ingredients a user needs to buy and how much it will cost for a given recipe', () => {
 
-    expect(user1.checkPantry(recipe.ingredients)).to.eql(/* <-----------------------------> */);
+  //   expect(user1.checkPantry(recipe.ingredients)).to.eql(/* <-----------------------------> */);
 
-  });
+  // });
 
   it('10. Should be able to cook the meal if the pantry has enough ingredients', () => {
 
@@ -136,4 +136,21 @@ describe('User', () => {
     expect(user1.pantry[13].amount).to.eql(0);
 
   });
+  
+  it('12. Should be able to check quantities for each ingredient', () => {
+
+    expect(user1.returnAmount(recipe2.ingredients)).to.eql(/**/);
+
+  });
 });
+
+/*
+
+End result: a list of what ingredients they need to buy, and how much it will cost
+  array of objects
+
+
+*/
+
+
+
