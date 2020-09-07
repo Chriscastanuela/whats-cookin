@@ -75,44 +75,45 @@ describe('User', () => {
     );
   });
 
-  it('Should have a property of favoriteRecipes with a default value', () => {
+  it('1. Should have a property of favoriteRecipes with a default value', () => {
     expect(user1.favoriteRecipes).to.eql([]);
   });
 
-  it('Should be able to add recipes to favoriteRecipes', () =>{
+  it('2. Should be able to add recipes to favoriteRecipes', () =>{
     user1.addToCategory(recipeData[0], 'favoriteRecipes')
     expect(user1.favoriteRecipes.includes(recipeData[0])).to.eql(true);
   });
 
-  it('Should have a property of recipesToCook with a default value', () => {
+  it('3. Should have a property of recipesToCook with a default value', () => {
     expect(user1.recipesToCook).to.eql([]);
   });
 
-  it('Should be able to remove recipes from favoriteRecipes', () =>{
+  it('4. Should be able to remove recipes from favoriteRecipes', () =>{
     user1.removeFromCategory(recipeData, 'favoriteRecipes');
     expect(user1.favoriteRecipes).to.eql([]);
   });
 
-  it('Should be able to filter through favoriteRecipes by tag', () => {
+  it('5. Should be able to filter through favoriteRecipes by tag', () => {
     user1.addToCategory(recipeData[0], 'favoriteRecipes');
     user1.addToCategory(recipeData[1], 'favoriteRecipes');
     expect(user1.filterRecipes('antipasti', 'favoriteRecipes')).to.eql([recipeData[0]]);
   });
 
-  it('Should be able to search favoriteRecipes by name or ingredient', () => {
+  it('6. Should be able to search favoriteRecipes by name or ingredient', () => {
     user1.addToCategory(recipeData[0], 'favoriteRecipes');
     user1.addToCategory(recipeData[1], 'favoriteRecipes');
     expect(user1.findInCategory('egg', 'favoriteRecipes')).to.eql([recipeData[0]]);
   });
 
-  it('Should be able to check ingredients in User/s pantry for a given recipe', () => {
+  it('7. Should be able to check the pantry and tell you if you have the ingredients for a given recipe', () => {
     
     expect(user1.checkPantry(recipe2.ingredients)).to.eql('You have the ingredients!');
 
-    expect(user1.checkPantry(recipe.ingredients)).to.eql('You do not have the ingredients.');
   });
 
-  it('Should inform User if they lack required ingredients for a given recipe', () => {
-    expect(user1.checkPantry(recipe.ingredients)).to.eql(missingIngredientsWithPrice);
+  it('8. Should be able to check the pantry and tell you if you do not have the ingredients for a given recipe', () => {
+
+    expect(user1.checkPantry(recipe.ingredients)).to.eql('You do not have the ingredients.');
+
   });
 });

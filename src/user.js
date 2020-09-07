@@ -34,7 +34,20 @@ class User {
   }
 
   checkPantry(recipeIngredients) {
-    //
+    let toggle;
+    toggle = 'You have the ingredients!';
+    let pantryIds = this.pantry.map(index => {
+      return index.ingredient;
+    })
+    let recipeIds = recipeIngredients.map(i => {
+      return i.id;
+    })
+    recipeIds.forEach(oneI => {
+      if (!pantryIds.includes(oneI)) {
+        toggle = 'You do not have the ingredients.'
+      }
+    })
+    return toggle;
   }
 }
 // 'You have the ingredients!'
