@@ -2,11 +2,18 @@ import { expect } from 'chai';
 
 import User from '../src/user.js';
 import recipeData from '../src/data/recipes.js'
+import Recipe from '../src/recipe.js';
+import ingredientsData from '../src/data/ingredients';
 
 let user1
 
+let recipe = new Recipe(recipeData[47], ingredientsData);
+
+let recipe2 = new Recipe(recipeData[0], ingredientsData);
+
 describe('User', () => {
   beforeEach(() => {
+
     user1 = new User(1, 'Boba', [
       {
         'ingredient': 1077,
@@ -19,7 +26,52 @@ describe('User', () => {
       {
         'ingredient': 1009054,
         'amount': 3
-      }]
+      },
+      {
+        "ingredient": 20081,
+        "amount": 1.5,
+      },
+      {
+        "ingredient": 18372,
+        "amount": 0.5,
+      },
+      {
+        "ingredient": 1123,
+        "amount": 1,
+      },
+      {
+        "ingredient": 19335,
+        "amount": 0.5,
+      },
+      {
+        "ingredient": 19206,
+        "amount": 3,
+      },
+      {
+        "ingredient": 19334,
+        "amount": 0.5,
+      },
+      {
+        "ingredient": 2047,
+        "amount": 0.5,
+      },
+      {
+        "ingredient": 1012047,
+        "amount": 24,
+      },
+      {
+        "ingredient": 10019903,
+        "amount": 2,
+      },
+      {
+        "ingredient": 1145,
+        "amount": 0.5,
+      },
+      {
+        "ingredient": 2050,
+        "amount": 0.5,
+      }
+    ]
     );
   });
 
@@ -54,10 +106,13 @@ describe('User', () => {
   });
 
   it('Should be able to check ingredients in User/s pantry for a given recipe', () => {
-    expect(user1.checkPantry(recipeIngredients)).to.eql('You have the ingredients!');
+    
+    expect(user1.checkPantry(recipe2.ingredients)).to.eql('You have the ingredients!');
+
+    expect(user1.checkPantry(recipe.ingredients)).to.eql('You do not have the ingredients.');
   });
 
   it('Should inform User if they lack required ingredients for a given recipe', () => {
-    expect(user1.checkPantry(recipeIngredients)).to.eql(missingIngredientsWithPrice);
+    expect(user1.checkPantry(recipe.ingredients)).to.eql(missingIngredientsWithPrice);
   });
 });

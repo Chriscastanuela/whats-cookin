@@ -32,7 +32,12 @@ class User {
       });
     });
   }
-}
 
+  checkPantry(recipeIngredients) {
+    //
+  }
+}
+// 'You have the ingredients!'
+// 'You do not have the ingredients.'
 
 export default User;
