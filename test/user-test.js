@@ -6,8 +6,8 @@ import Recipe from '../src/recipe.js';
 import ingredientsData from '../src/data/ingredients';
 
 let user1;
-let recipe;
-let firstRecipe;
+let recipeFortySeven;
+let recipeOne;
 
 describe('User', () => {
   beforeEach(() => {
@@ -25,6 +25,10 @@ describe('User', () => {
         'ingredient': 1009054,
         'amount': 3
       },
+      //
+      //
+      //
+      //recipeOne
       {
         "ingredient": 20081,
         "amount": 1.5,
@@ -49,27 +53,29 @@ describe('User', () => {
         "ingredient": 19334,
         "amount": 0.5,
       },
-      {
-        "ingredient": 2047,
-        "amount": 0.5,
-      },
-      {
-        "ingredient": 1012047,
-        "amount": 24,
-      },
-      {
-        "ingredient": 10019903,
-        "amount": 2,
-      },
-      {
-        "ingredient": 1145,
-        "amount": 0.5,
-      },
-      {
-        "ingredient": 2050,
-        "amount": 0.5,
-      },
+      // {
+      //   "ingredient": 2047,
+      //   "amount": 0.5,
+      // },
+      // {
+      //   "ingredient": 1012047,
+      //   "amount": 24,
+      // },
+      // {
+      //   "ingredient": 10019903,
+      //   "amount": 2,
+      // },
+      // {
+      //   "ingredient": 1145,
+      //   "amount": 0.5,
+      // },
+      // {
+      //   "ingredient": 2050,
+      //   "amount": 0.5,
+      // },
       //
+      //
+      //recipe47
       {
         "ingredient": 1041009,
         "amount": 2,
@@ -97,9 +103,9 @@ describe('User', () => {
     ]
     );
 
-    recipe = new Recipe(recipeData[47], ingredientsData);
+    recipeFortySeven = new Recipe(recipeData[47], ingredientsData);
 
-    firstRecipe = new Recipe(recipeData[0], ingredientsData);
+    recipeOne = new Recipe(recipeData[0], ingredientsData);
 
   });
 
@@ -135,13 +141,13 @@ describe('User', () => {
 
   it('7. Should be able to check the pantry and tell you if you have the ingredients for a given recipe', () => {
     
-    expect(user1.checkPantry(firstRecipe.ingredients)).to.eql(true);
+    expect(user1.checkPantry(recipeOne.ingredients)).to.eql(true);
 
   });
 
   it('8. Should be able to check the pantry and tell you if you do not have the ingredients for a given recipe', () => {
 
-    expect(user1.checkPantry(recipe.ingredients)).to.eql(false);
+    expect(user1.checkPantry(recipeFortySeven.ingredients)).to.eql(false);
 
   });
 
@@ -153,13 +159,13 @@ describe('User', () => {
 
   it('10. Should be able to cook the meal if the pantry has enough ingredients', () => {
 
-    expect(user1.cookMeal(recipe.ingredients)).to.eql("Not enough ingredients for this");
+    expect(user1.cookMeal(recipeFortySeven.ingredients)).to.eql("Not enough ingredients for this");
 
   });
 
   it('11. Should be able to cook the meal if the pantry has enough ingredients', () => {
     
-    user1.cookMeal(firstRecipe.ingredients)
+    user1.cookMeal(recipeOne.ingredients)
 
     expect(user1.pantry[13].amount).to.eql(0);
 
@@ -167,8 +173,17 @@ describe('User', () => {
   
   it('12. Should be able to check quantities for each ingredient', () => {
 
-    // console.log(".......................", recipe);
-    expect(user1.returnAmount(recipe.ingredients)).to.eql(recipeData[47]);
+    // console.log(".......................", recipeData[47]);
+    //'Farmer’s Market Flatbread Pizza'
+    /*
+    { name: 'cheese', id: 1041009, quantity: [Object] },
+    { name: 'flatbread', id: 10018413, quantity: [Object] },
+    { name: 'fresh basil', id: 2044, quantity: [Object] },
+    { name: 'grape tomatoes', id: 10111529, quantity: [Object] },
+    { name: 'olive oil', id: 4053, quantity: [Object] },
+    { name: 'zucchini', id: 11477, quantity: [Object] }
+    */
+    expect(user1.returnAmount(recipeOne.ingredients)).to.eql(recipeData[47]);
 
   });
 });
@@ -178,30 +193,9 @@ describe('User', () => {
 End result: a list of what ingredients they need to buy, and how much it will cost
   array of objects
 
-
+  // returnAmount(recipeIngredients) {
+  //   recipeIngredients.reduce((acc, i) => {
+  //     //
+  //   }, []);
+  // }
 */
-
-// returnAmount(recipeIngredients) {
-//   let newArray = [];
-//   // let newObject;
-//   recipeIngredients.forEach(recipeIngredient => {
-//     this.pantry.forEach(i => {  
-//       if (i.ingredient == recipeIngredient.id) {
-//         let newObject = {
-//           name: recipeIngredient.name,
-//           id: recipeIngredient.id,
-//           hasEnough: i.amount -= recipeIngredient.quantity.amount
-//           }
-//       } else {
-//         let newObject = {
-//           name: recipeIngredient.name,
-//           id: recipeIngredient.id,
-//           hasEnough: "You don't have any of this item"
-//         }
-//       }
-//     })
-//     newArray.push(newObject);
-//   })
-//   console.log(newArray);
-//   return newArray;
-// }
