@@ -53,26 +53,26 @@ describe('User', () => {
         "ingredient": 19334,
         "amount": 0.5,
       },
-      // {
-      //   "ingredient": 2047,
-      //   "amount": 0.5,
-      // },
-      // {
-      //   "ingredient": 1012047,
-      //   "amount": 24,
-      // },
-      // {
-      //   "ingredient": 10019903,
-      //   "amount": 2,
-      // },
-      // {
-      //   "ingredient": 1145,
-      //   "amount": 0.5,
-      // },
-      // {
-      //   "ingredient": 2050,
-      //   "amount": 0.5,
-      // },
+      {
+        "ingredient": 2047,
+        "amount": 0.5,
+      },
+      {
+        "ingredient": 1012047,
+        "amount": 24,
+      },
+      {
+        "ingredient": 10019903,
+        "amount": 2,
+      },
+      {
+        "ingredient": 1145,
+        "amount": 0.5,
+      },
+      {
+        "ingredient": 2050,
+        "amount": 0.5,
+      },
       //
       //
       //recipe47

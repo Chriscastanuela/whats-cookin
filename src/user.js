@@ -56,8 +56,6 @@ class User {
     recipeIngredients.forEach(ingredient => {
       this.pantry.forEach(index => {
         if (index.ingredient == ingredient.id) {
-          // console.log("index.amount", index.amount);
-          // console.log("ingredient.quantity.amount", ingredient.quantity.amount);
           index.amount -= ingredient.quantity.amount;
         } 
       })
@@ -69,11 +67,11 @@ class User {
     let newArray = [];
     recipeIngredients.forEach(dex => {
       if (pantryIds.includes(dex.id)) {
+          let theIndex = pantryIds.indexOf(dex.id);
           var newObject = {
           name: dex.name,
           id: dex.id,
-          // hasEnough: dex.quantity.amount -= dex.quantity.amount
-          hasEnough: "You got what it takes"
+          hasEnough: this.pantry[theIndex].amount -= dex.quantity.amount
         }
       } else {
         var newObject = {
@@ -87,32 +85,6 @@ class User {
     console.log(newArray)
     return newArray;
   }
-
-  // returnAmount(recipeIngredients) {
-  //   recipeIngredients.map(ingredientFromRecipie => {
-  //     let pantryItemsThatWeHaveForTheRecipie = this.pantry.filter(pantryItem => {
-  //       return pantryItem.ingredient === ingredientFromRecipie.id;
-  //       });
-  //     // console.log(pantryItemsThatWeHaveForTheRecipie);
-  //     let someStuff = pantryItemsThatWeHaveForTheRecipie.reduce((acc, specificPantryItemFromTheRecipie) => {
-  //       if (ingredientFromRecipie.id === specificPantryItemFromTheRecipie.ingredient) {
-  //         console.log('if')
-  //         acc.push({
-  //           id: ingredientFromRecipie.id,
-  //           name: ingredientFromRecipie.name,
-  //           howMuchWeHaveLeftOver: ingredientFromRecipie.quantity.amount -= specificPantryItemFromTheRecipie.amount
-  //         })
-  //       } else {
-  //         console.log('else');
-  //         acc.push({howMuchWeHaveLeftOver: "We ain't got none of those!!"})
-  //       }
-  //       return acc;
-  //     }, []);
-  //     console.log(someStuff);
-  //   })
-  // }
 }
-
-
 
 export default User;
