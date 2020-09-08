@@ -106,9 +106,3 @@ class User {
 }
 
 export default User;
-
-/*
-groceries will be a list of what we have and need
-
-if each grocery has enough is negative we will need to multiply that number 
-*/

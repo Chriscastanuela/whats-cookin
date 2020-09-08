@@ -236,15 +236,3 @@ describe('User', () => {
     );
   });
 });
-
-/*
-
-End result: a list of what ingredients they need to buy, and how much it will cost
-  array of objects
-
-  // returnAmount(recipeIngredients) {
-  //   recipeIngredients.reduce((acc, i) => {
-  //     //
-  //   }, []);
-  // }
-*/
