@@ -5,14 +5,12 @@ import recipeData from '../src/data/recipes.js'
 import Recipe from '../src/recipe.js';
 import ingredientsData from '../src/data/ingredients';
 
-let user1;
-let recipeFortySeven;
-let recipeOne;
+let user1, user2, recipeFortySeven, recipeOne;
 
 describe('User', () => {
   beforeEach(() => {
 
-    user1 = new User(1, 'Boba', /*pantry*/[
+    user1 = new User(1, 'Boba', [
       {
         'ingredient': 1077,
         'amount': 1
@@ -28,7 +26,7 @@ describe('User', () => {
       //
       //
       //
-      //recipeOne
+      // recipeOne
       {
         "ingredient": 20081,
         "amount": 1.5,
@@ -103,6 +101,42 @@ describe('User', () => {
     ]
     );
 
+    user2 = new User(1, 'Boba', [
+      {
+        "ingredient": 19335,
+        "amount": 0.5,
+      },
+      {
+        "ingredient": 19206,
+        "amount": 3,
+      },
+      {
+        "ingredient": 19334,
+        "amount": 0.5,
+      },
+      {
+        "ingredient": 2047,
+        "amount": 0.5,
+      },
+      {
+        "ingredient": 1012047,
+        "amount": 24,
+      },
+      {
+        "ingredient": 10019903,
+        "amount": 2,
+      },
+      {
+        "ingredient": 1145,
+        "amount": 0.5,
+      },
+      {
+        "ingredient": 2050,
+        "amount": 0.5,
+      }
+    ]
+    );
+
     recipeFortySeven = new Recipe(recipeData[47], ingredientsData);
 
     recipeOne = new Recipe(recipeData[0], ingredientsData);
@@ -151,11 +185,23 @@ describe('User', () => {
 
   });
 
-  // it.skip('9. Should be able to give you a list of what ingredients a user needs to buy and how much it will cost for a given recipe', () => {
-
-  //   expect(user1.checkPantry(recipe.ingredients)).to.eql(/* <-----------------------------> */);
-
-  // });
+  it('9. Should be able to give you a list of what ingredients a user needs to buy and how much it will cost for a given recipe', () => {
+    expect(user2.returnShoppingList(recipeOne.ingredients)).to.eql([
+      {
+        name: 'all purpose flour',
+        id: 20081,
+        hasEnough: -1.5,
+        groceryListCost: -213
+      },
+      {
+        name: 'baking soda',
+        id: 18372,
+        hasEnough: -0.5,
+        groceryListCost: -291
+      },
+      { name: 'egg', id: 1123, hasEnough: -1, groceryListCost: -472 }
+    ])
+  });
 
   it('10. Should be able to cook the meal if the pantry has enough ingredients', () => {
 
@@ -171,20 +217,23 @@ describe('User', () => {
 
   });
   
-  it('12. Should be able to check quantities for each ingredient', () => {
-
-    // console.log(".......................", recipeData[47]);
-    //'Farmer’s Market Flatbread Pizza'
-    /*
-    { name: 'cheese', id: 1041009, quantity: [Object] },
-    { name: 'flatbread', id: 10018413, quantity: [Object] },
-    { name: 'fresh basil', id: 2044, quantity: [Object] },
-    { name: 'grape tomatoes', id: 10111529, quantity: [Object] },
-    { name: 'olive oil', id: 4053, quantity: [Object] },
-    { name: 'zucchini', id: 11477, quantity: [Object] }
-    */
-    expect(user1.returnAmount(recipeOne.ingredients)).to.eql(recipeData[47]);
-
+  it('12. Should check quantities for each ingredient', () => {
+    
+    expect(user2.returnAmount(recipeOne.ingredients)).to.eql(
+      [
+      { name: 'all purpose flour', id: 20081, hasEnough: -1.5 },
+      { name: 'baking soda', id: 18372, hasEnough: -0.5 },
+      { name: 'egg', id: 1123, hasEnough: -1 },
+      { name: 'granulated sugar', id: 19335, hasEnough: 0 },
+      { name: 'instant vanilla pudding mix', id: 19206, hasEnough: 0 },
+      { name: 'light brown sugar', id: 19334, hasEnough: 0 },
+      { name: 'salt', id: 2047, hasEnough: 0 },
+      { name: 'sea salt', id: 1012047, hasEnough: 0 },
+      { name: 'semisweet chocolate chips', id: 10019903, hasEnough: 0 },
+      { name: 'unsalted butter', id: 1145, hasEnough: 0 },
+      { name: 'vanilla extract', id: 2050, hasEnough: 0 }
+    ]
+    );
   });
 });
 

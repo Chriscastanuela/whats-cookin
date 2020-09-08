@@ -1,3 +1,5 @@
+import ingredientsData from '../src/data/ingredients';
+
 class User {
   constructor(id, name, pantry) {
     this.id = id;
@@ -77,14 +79,36 @@ class User {
         var newObject = {
         name: dex.name,
         id: dex.id,
-        hasEnough: "You don't have any of this item"
+        hasEnough: -dex.quantity.amount
         }
       }
       newArray.push(newObject);
     })
-    console.log(newArray)
     return newArray;
+  }
+
+  returnShoppingList(recipeIngredients) {
+    let groceries = this.returnAmount(recipeIngredients);
+    let notEnoughGroceries = groceries.filter(index => {
+      return index.hasEnough < 0
+    })
+    let foundIt = [];
+    let shoppingList = notEnoughGroceries.map(negativeGrocery => {
+      let foundIngredient = ingredientsData.find(i => {
+      return i.id == negativeGrocery.id;
+    })
+    foundIt.push(foundIngredient);
+    negativeGrocery.groceryListCost = foundIt[foundIt.length-1].estimatedCostInCents * negativeGrocery.hasEnough;
+    return negativeGrocery;
+    })
+    return shoppingList;
   }
 }
 
 export default User;
+
+/*
+groceries will be a list of what we have and need
+
+if each grocery has enough is negative we will need to multiply that number 
+*/
