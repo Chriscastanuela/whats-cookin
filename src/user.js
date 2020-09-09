@@ -1,5 +1,3 @@
-import ingredientsData from '../src/data/ingredients';
-
 class User {
   constructor(id, name, pantry) {
     this.id = id;
@@ -67,19 +65,19 @@ class User {
   returnAmount(recipeIngredients) {
     let pantryIds = this.pantry.map(index => index.ingredient);
     let newArray = [];
-    recipeIngredients.forEach(dex => {
-      if (pantryIds.includes(dex.id)) {
-          let theIndex = pantryIds.indexOf(dex.id);
+    recipeIngredients.forEach(ingredient => {
+      if (pantryIds.includes(ingredient.id)) {
+          let theIndex = pantryIds.indexOf(ingredient.id);
           var newObject = {
-          name: dex.name,
-          id: dex.id,
-          hasEnough: this.pantry[theIndex].amount -= dex.quantity.amount
-        }
+            name: ingredient.name,
+            id: ingredient.id,
+            hasEnough: this.pantry[theIndex].amount -= ingredient.quantity.amount
+          }
       } else {
         var newObject = {
-        name: dex.name,
-        id: dex.id,
-        hasEnough: -dex.quantity.amount
+        name: ingredient.name,
+        id: ingredient.id,
+        hasEnough: -ingredient.quantity.amount
         }
       }
       newArray.push(newObject);
@@ -87,7 +85,7 @@ class User {
     return newArray;
   }
 
-  returnShoppingList(recipeIngredients) {
+  returnShoppingList(recipeIngredients, ingredientsData) {
     let groceries = this.returnAmount(recipeIngredients);
     let notEnoughGroceries = groceries.filter(index => {
       return index.hasEnough < 0

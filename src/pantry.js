@@ -1,10 +1,8 @@
-import recipeData from "./data/recipes";
-
 class Pantry {
   constructor(userIngredients) {
     this.contents = userIngredients;
   }
-  doIHaveEnoughForThis(nameOrId) {
+  doIHaveEnoughForThis(nameOrId, recipeData) {
     let toggle = "Yes";
     let thisRecipe = recipeData.find(index => {
       return index.id == nameOrId || index.name == nameOrId;
@@ -23,7 +21,7 @@ class Pantry {
     return toggle;
   };
   
-  howManyIngredientsLeft(nameOrId) {
+  howManyIngredientsLeft(nameOrId, recipeData) {
     let contentsIds = this.contents.map(index => {
       return index.ingredient;
     })
