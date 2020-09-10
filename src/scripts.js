@@ -149,18 +149,19 @@ function populateCards(recipes) {
     cardArea.insertAdjacentHTML('afterbegin', `<div id='${recipe.id}'
     class='card'>
         <header id='${recipe.id}' class='card-header'>
-          <label for='add-button' class='hidden'>Click to add recipe</label>
-
           
-          <button id='${recipe.id}' aria-label='add-button' class='add-button card-button'></button>
-          <label for='favorite-button' class='hidden'>Click to favorite recipe</label>
-          <button id='${recipe.id}' aria-label='favorite-button' class='favorite favorite${recipe.id} card-button'></button>
+            <label for='add-button' class='hidden'>Click to add recipe</label>
+            <button id='${recipe.id}' aria-label='add-button' class='add-button card-button'></button>
+            <label for='favorite-button' class='hidden'>Click to favorite recipe</label>
+            <button id='${recipe.id}' aria-label='favorite-button' class='favorite favorite${recipe.id} card-button'></button>
+          
         </header>
 
-
+        <section class="card-body">
           <span id='${recipe.id}' class='recipe-name'>${recipe.name}</span>
           <img id='${recipe.id}' tabindex='0' class='card-picture'
           src='${recipe.image}' alt='click to view recipe for ${recipe.name}'>
+        </section>
     </div>`)
   })
   getFavorites();
