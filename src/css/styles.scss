@@ -10,6 +10,21 @@ body {
   margin: auto;
 }
 
+main {
+  background-color: #37515C;
+  height: 100%;
+  width: 100%;
+}
+
+h1 {
+  border-right: 2px solid #000;
+  font-size: 255%;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 10px;
+  text-align: center;
+  width: 30%;
+}
 
 .main-header {
   background-color: #EBF5EE;
@@ -28,15 +43,6 @@ body {
   margin: 1%;
 }
 
-h1 {
-  border-right: 2px solid #000;
-  font-size: 255%;
-  margin-top: 0;
-  margin-bottom: 0;
-  padding-top: 10px;
-  text-align: center;
-  width: 30%;
-}
 
 .user-info {
   font-size: 180%;
@@ -181,13 +187,9 @@ h3 {
   width: 94%;
 }
 
-main {
-  background-color: #37515C;
-  height: 100%;
-  width: 100%;
-}
 
 .favorite-active {
   background-image: url(https://image.flaticon.com/icons/svg/148/148841.svg);
   background-repeat: no-repeat;
 }
+
