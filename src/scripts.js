@@ -152,11 +152,8 @@ function populateCards(recipes) {
           <label for='add-button' class='hidden'>Click to add recipe</label>
 
           
-          <button id='${recipe.id}' aria-label='add-button' class='add-button card-button'>
-
-          </button>
-          <label for='favorite-button' class='hidden'>Click to favorite recipe
-          </label>
+          <button id='${recipe.id}' aria-label='add-button' class='add-button card-button'></button>
+          <label for='favorite-button' class='hidden'>Click to favorite recipe</label>
           <button id='${recipe.id}' aria-label='favorite-button' class='favorite favorite${recipe.id} card-button'></button>
         </header>
 
