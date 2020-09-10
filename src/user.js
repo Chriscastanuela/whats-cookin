@@ -1,5 +1,3 @@
-import ingredientsData from '../src/data/ingredients';
-
 class User {
   constructor(id, name, pantry) {
     this.id = id;
@@ -40,11 +38,11 @@ class User {
     let pantryIds = this.pantry.map(index => {
       return index.ingredient;
     })
-    let recipeIds = recipeIngredients.map(i => {
-      return i.id;
+    let recipeIds = recipeIngredients.map(index => {
+      return index.id;
     })
-    recipeIds.forEach(oneI => {
-      if (!pantryIds.includes(oneI)) {
+    recipeIds.forEach(index => {
+      if (!pantryIds.includes(index)) {
         toggle = false
       }
     })
@@ -66,39 +64,39 @@ class User {
 
   returnAmount(recipeIngredients) {
     let pantryIds = this.pantry.map(index => index.ingredient);
-    let newArray = [];
-    recipeIngredients.forEach(dex => {
-      if (pantryIds.includes(dex.id)) {
-          let theIndex = pantryIds.indexOf(dex.id);
-          var newObject = {
-          name: dex.name,
-          id: dex.id,
-          hasEnough: this.pantry[theIndex].amount -= dex.quantity.amount
+    let recipeIngredientsFromPantry = [];
+    recipeIngredients.forEach(ingredient => {
+      if (pantryIds.includes(ingredient.id)) {
+        let index = pantryIds.indexOf(ingredient.id);
+        var ingredientData = {
+          userID: this.id,
+          ingredientID: ingredient.id,
+          ingredientModification: this.pantry[index].amount -= ingredient.quantity.amount
         }
       } else {
-        var newObject = {
-        name: dex.name,
-        id: dex.id,
-        hasEnough: -dex.quantity.amount
+        var ingredientData = {
+          userID: this.id,
+          ingredientID: ingredient.id,
+          ingredientModification: -ingredient.quantity.amount
         }
       }
-      newArray.push(newObject);
+      recipeIngredientsFromPantry.push(ingredientData);
     })
-    return newArray;
+    return recipeIngredientsFromPantry;
   }
 
-  returnShoppingList(recipeIngredients) {
+  returnShoppingList(recipeIngredients, ingredientsData) {
     let groceries = this.returnAmount(recipeIngredients);
-    let notEnoughGroceries = groceries.filter(index => {
-      return index.hasEnough < 0
+    let notEnoughGroceries = groceries.filter(ingredient => {
+      return ingredient.ingredientModification < 0
     })
-    let foundIt = [];
+    let foundIngredients = [];
     let shoppingList = notEnoughGroceries.map(negativeGrocery => {
-      let foundIngredient = ingredientsData.find(i => {
-      return i.id == negativeGrocery.id;
+      let foundIngredient = ingredientsData.find(ingredient => {
+      return ingredient.id == negativeGrocery.id;
     })
-    foundIt.push(foundIngredient);
-    negativeGrocery.groceryListCost = foundIt[foundIt.length-1].estimatedCostInCents * negativeGrocery.hasEnough;
+    foundIngredients.push(foundIngredient);
+    negativeGrocery.groceryListCost = foundIngredients[foundIngredients.length-1].estimatedCostInCents * negativeGrocery.ingredientModification;
     return negativeGrocery;
     })
     return shoppingList;
