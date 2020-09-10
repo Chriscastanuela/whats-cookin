@@ -186,20 +186,25 @@ describe('User', () => {
   });
 
   it('9. Should be able to give you a list of what ingredients a user needs to buy and how much it will cost for a given recipe', () => {
-    expect(user2.returnShoppingList(recipeOne.ingredients)).to.eql([
+    expect(user2.returnShoppingList(recipeOne.ingredients, ingredientsData)).to.eql([
       {
-        name: 'all purpose flour',
-        id: 20081,
-        hasEnough: -1.5,
-        groceryListCost: -213
+        userID: 1,
+        ingredientID: 20081,
+        ingredientModification: -1.5,
+        groceryListCost: -307.5
       },
       {
-        name: 'baking soda',
-        id: 18372,
-        hasEnough: -0.5,
-        groceryListCost: -291
+        userID: 1,
+        ingredientID: 18372,
+        ingredientModification: -0.5,
+        groceryListCost: -102.5
       },
-      { name: 'egg', id: 1123, hasEnough: -1, groceryListCost: -472 }
+      {
+        userID: 1,
+        ingredientID: 1123,
+        ingredientModification: -1,
+        groceryListCost: -205
+      }
     ])
   });
 
@@ -219,20 +224,18 @@ describe('User', () => {
   
   it('12. Should check quantities for each ingredient', () => {
     
-    expect(user2.returnAmount(recipeOne.ingredients)).to.eql(
-      [
-      { name: 'all purpose flour', id: 20081, hasEnough: -1.5 },
-      { name: 'baking soda', id: 18372, hasEnough: -0.5 },
-      { name: 'egg', id: 1123, hasEnough: -1 },
-      { name: 'granulated sugar', id: 19335, hasEnough: 0 },
-      { name: 'instant vanilla pudding mix', id: 19206, hasEnough: 0 },
-      { name: 'light brown sugar', id: 19334, hasEnough: 0 },
-      { name: 'salt', id: 2047, hasEnough: 0 },
-      { name: 'sea salt', id: 1012047, hasEnough: 0 },
-      { name: 'semisweet chocolate chips', id: 10019903, hasEnough: 0 },
-      { name: 'unsalted butter', id: 1145, hasEnough: 0 },
-      { name: 'vanilla extract', id: 2050, hasEnough: 0 }
-    ]
-    );
+    expect(user2.returnAmount(recipeOne.ingredients)).to.eql([
+      { userID: 1, ingredientID: 20081, ingredientModification: -1.5 },
+      { userID: 1, ingredientID: 18372, ingredientModification: -0.5 },
+      { userID: 1, ingredientID: 1123, ingredientModification: -1 },
+      { userID: 1, ingredientID: 19335, ingredientModification: 0 },
+      { userID: 1, ingredientID: 19206, ingredientModification: 0 },
+      { userID: 1, ingredientID: 19334, ingredientModification: 0 },
+      { userID: 1, ingredientID: 2047, ingredientModification: 0 },
+      { userID: 1, ingredientID: 1012047, ingredientModification: 0 },
+      { userID: 1, ingredientID: 10019903, ingredientModification: 0 },
+      { userID: 1, ingredientID: 1145, ingredientModification: 0 },
+      { userID: 1, ingredientID: 2050, ingredientModification: 0 }
+    ]);
   });
 });

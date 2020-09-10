@@ -11,8 +11,8 @@ class Pantry {
       if (!this.contents[index]) {
         toggle = "No"
       } else {
-        this.contents.forEach(i => {
-          if (i.amount >= index.quantity.amount) {
+        this.contents.forEach(index => {
+          if (index.amount >= index.quantity.amount) {
             toggle == "Yes";
           }
         })
@@ -26,12 +26,12 @@ class Pantry {
       return index.ingredient;
     })
     let notInThere = [];
-    let ings = recipeData.find(index => {
+    let ingredientFromRecipe = recipeData.find(index => {
       return index.id  == nameOrId || index.name == nameOrId;
     });
-    ings.ingredients.forEach(i => {
-      if (!contentsIds.includes(i.id)) {
-        notInThere.push(i);
+    ingredientFromRecipe.ingredients.forEach(index => {
+      if (!contentsIds.includes(index.id)) {
+        notInThere.push(index);
       }
     });
     return notInThere.length;
