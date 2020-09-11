@@ -4,6 +4,7 @@ $outline-color: #EBF5EE;
 
 html {
   background-color: $backdrop;
+  // background-image: linear-gradient(to right top, #38515c, #496876, #5b8091, #6d99ac, #80b2c9);
   border: 2px solid $border-color;
   height: 100vh;
 }
@@ -16,6 +17,7 @@ body {
 
 main {
   background-color: $backdrop;
+  // background-image: linear-gradient(to right top, #38515c, #496876, #5b8091, #6d99ac, #80b2c9);
   height: 100%;
   width: 100%;
 }
@@ -159,11 +161,13 @@ img {
   background-color: $outline-color;
   border: 3px solid $border-color;
   width: 300px;
+  box-shadow: 5px 10px 18px #647A85;
 }
 
 
 .card-header {
-  background-color: $outline-color;
+  // background-color: $outline-color;
+  background-color: #8C798B;
   border-bottom: 1px solid $border-color;
   display: flex;
   justify-content: space-between;
