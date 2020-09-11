@@ -47,20 +47,21 @@ function viewFavorites() {
     favButton.innerHTML = 'Refresh Favorites';
     cardArea.innerHTML = '';
     user.favoriteRecipes.forEach(recipe => {
-      cardArea.insertAdjacentHTML('afterbegin', `<article id='${recipe.id}'
+      console.log(user.favoriteRecipes);
+      cardArea.insertAdjacentHTML('afterbegin', `<article id='${recipe.id}-card'
       class='card'>
-      <header id='${recipe.id}' class='card-header'>
+      <header id='${recipe.id}-header' class='card-header'>
       <label for='add-button' class='hidden'>Click to add recipe</label>
-      <button id='${recipe.id}' aria-label='add-button' class='add-button card-button'>
-      <img id='${recipe.id}' class='add'
+      <button id='${recipe.id}-add' aria-label='add-button' class='add-button card-button'>
+      <img id='${recipe.id}-img' class='add'
       src='https://image.flaticon.com/icons/svg/32/32339.svg' alt='Add to
       recipes to cook'></button>
       <label for='favorite-button' class='hidden'>Click to favorite recipe
       </label>
-      <button id='${recipe.id}' aria-label='favorite-button' class='favorite favorite-active card-button'>
+      <button id='${recipe.id}-favorite-button' aria-label='favorite-button' class='favorite favorite-active card-button'>
       </button></header>
-      <article id='${recipe.id}' class='recipe-name'>${recipe.name}</span>
-      <img id='${recipe.id}' tabindex='0' class='card-picture'
+      <article id='${recipe.id}-recipie-name' class='recipe-name'>${recipe.name}</span>
+      <img id='${recipe.id}-picture' tabindex='0' class='card-picture'
       src='${recipe.image}' alt='Food from recipe'>
       </article>`)
     })
@@ -74,12 +75,20 @@ function greetUser() {
 }
 
 function favoriteCard(event) {
-  console.log(cookbook.recipes);
+  let targetedID;
+  if (event.target.id.includes('-')) {
+    targetedID = event.target.id.slice(0, event.target.id.indexOf('-'))
+  } else {
+    targetedID = event.target.id
+  }
   let specificRecipe = cookbook.recipes.find(recipe => {
-    if (recipe.id  === Number(event.target.id)) {
+    if (recipe.id  === Number(targetedID)) {
+      // console.log(recipe);
+      // if (recipe.id  === Number(event.target.id)) {
       return recipe;
     }
   })
+  console.log(specificRecipe);
   if (!event.target.classList.contains('favorite-active')) {
     event.target.classList.add('favorite-active');
     favButton.innerHTML = 'View Favorites';
@@ -103,8 +112,14 @@ function cardButtonConditionals(event) {
 
 
 function displayDirections(event) {
+  let targetedID;
+  if (event.target.id.includes('-')) {
+    targetedID = event.target.id.slice(0, event.target.id.indexOf('-'))
+  } else {
+    targetedID = event.target.id
+  }
   let newRecipeInfo = cookbook.recipes.find(recipe => {
-    if (recipe.id === Number(event.target.id)) {
+    if (recipe.id === Number(targetedID)) {
       return recipe;
     }
   })
@@ -151,19 +166,19 @@ function populateCards(recipes) {
   recipes.forEach(recipe => {
     cardArea.insertAdjacentHTML('afterbegin', `<article id='${recipe.id}-card'
     class='card'>
-        <header id='${recipe.id}' class='card-header'>
+        <header id='${recipe.id}-header' class='card-header'>
           
             <label for='add-button' class='hidden'>Click to add recipe</label>
-            <button id='${recipe.id}' aria-label='add-button' class='add-button card-button'></button>
+            <button id='${recipe.id}-add' aria-label='add-button' class='add-button card-button'></button>
             <label for='favorite-button' class='hidden'>Click to favorite recipe</label>
-            <button id='${recipe.id}' aria-label='favorite-button' class='favorite favorite${recipe.id} card-button'></button>
+            <button id='${recipe.id}-favorite' aria-label='favorite-button' class='favorite favorite${recipe.id} card-button'></button>
 
           
         </header>
 
         <section class="card-body">
-          <article id='${recipe.id}' class='recipe-name'>${recipe.name}
-          <img id='${recipe.id}' tabindex='0' class='card-picture'
+          <article id='${recipe.id}-recipie-name' class='recipe-name'>${recipe.name}
+          <img id='${recipe.id}-picture' tabindex='0' class='card-picture'
           src='${recipe.image}' alt='click to view recipe for ${recipe.name}'>
           </article>
           </section>
