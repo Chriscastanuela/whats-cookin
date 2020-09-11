@@ -27,8 +27,9 @@ function onStartup() {
   let newUser = users.find(user => {
     return user.id === Number(userId);
   });
-  user = new User(userId, newUser.name, newUser.pantry)
-  pantry = new Pantry(newUser.pantry)
+  user = new User(userId, newUser.name, newUser.pantry);
+  pantry = new Pantry(newUser.pantry);
+  // i thin we want the user class to instantiate the pantry. Not sure, check issues
   populateCards(cookbook.recipes);
   greetUser();
 }
@@ -41,8 +42,9 @@ function viewFavorites() {
     favButton.innerHTML = 'You have no favorites!';
     populateCards(cookbook.recipes);
     return
+    // we can use break if we are not trying to return anything
   } else {
-    favButton.innerHTML = 'Refresh Favorites'
+    favButton.innerHTML = 'Refresh Favorites';
     cardArea.innerHTML = '';
     user.favoriteRecipes.forEach(recipe => {
       cardArea.insertAdjacentHTML('afterbegin', `<article id='${recipe.id}-card'
@@ -72,6 +74,7 @@ function greetUser() {
 }
 
 function favoriteCard(event) {
+  console.log(cookbook.recipes);
   let specificRecipe = cookbook.recipes.find(recipe => {
     if (recipe.id  === Number(event.target.id)) {
       return recipe;
@@ -80,10 +83,10 @@ function favoriteCard(event) {
   if (!event.target.classList.contains('favorite-active')) {
     event.target.classList.add('favorite-active');
     favButton.innerHTML = 'View Favorites';
-    user.addToFavorites(specificRecipe);
+    user.addToCategory(specificRecipe, "favoriteRecipes");
   } else if (event.target.classList.contains('favorite-active')) {
     event.target.classList.remove('favorite-active');
-    user.removeFromFavorites(specificRecipe)
+    user.removeFromCategory(specificRecipe, "favoriteRecipes")
   }
 }
 
@@ -148,39 +151,23 @@ function populateCards(recipes) {
   recipes.forEach(recipe => {
     cardArea.insertAdjacentHTML('afterbegin', `<article id='${recipe.id}-card'
     class='card'>
-<<<<<<< HEAD
-        <header id='${recipe.id}' class='card-header'>
+        <header id='${recipe.id}-card-header' class='card-header'>
           
             <label for='add-button' class='hidden'>Click to add recipe</label>
-            <button id='${recipe.id}' aria-label='add-button' class='add-button card-button'></button>
+            <button id='${recipe.id}-button' aria-label='add-button' class='add-button card-button'></button>
             <label for='favorite-button' class='hidden'>Click to favorite recipe</label>
             <button id='${recipe.id}' aria-label='favorite-button' class='favorite favorite${recipe.id} card-button'></button>
+
           
         </header>
 
         <section class="card-body">
-          <span id='${recipe.id}' class='recipe-name'>${recipe.name}</span>
-          <img id='${recipe.id}' tabindex='0' class='card-picture'
-          src='${recipe.image}' alt='click to view recipe for ${recipe.name}'>
-        </section>
-    </div>`)
-=======
-        <header id='${recipe.id}-card-header' class='card-header'>
-          <label for='add-button' class='hidden'>Click to add recipe</label>
-          <button id='${recipe.id}-button' aria-label='add-button' class='add-button card-button'>
-            <img id='${recipe.id}-add' class='add'
-            src='https://image.flaticon.com/icons/svg/32/32339.svg' alt='Add to
-            recipes to cook'>
-          </button>
-          <label for='favorite-button' class='hidden'>Click to favorite recipe
-          </label>
-          <button id='${recipe.id}-favorite-button' aria-label='favorite-button' class='favorite favorite${recipe.id} card-button'></button>
-        </header>
-          <article id='${recipe.id}-article' class='recipe-name'>${recipe.name}</article>
+          <article id='${recipe.id}-article' class='recipe-name'>${recipe.name}
           <img id='${recipe.id}-card-picture' tabindex='0' class='card-picture'
           src='${recipe.image}' alt='click to view recipe for ${recipe.name}'>
-    </article>`)
->>>>>>> 42be6d62be6ec512733a42bc3e1106dc87c5d189
+          </article>
+          </section>
+          </article>`)
   })
   getFavorites();
 };
