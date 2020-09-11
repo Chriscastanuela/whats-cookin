@@ -53,9 +53,6 @@ function viewFavorites() {
       <header id='${recipe.id}-header' class='card-header'>
       <label for='add-button' class='hidden'>Click to add recipe</label>
       <button id='${recipe.id}-add' aria-label='add-button' class='add-button card-button'>
-      <img id='${recipe.id}-img' class='add'
-      src='https://image.flaticon.com/icons/svg/32/32339.svg' alt='Add to
-      recipes to cook'></button>
       <label for='favorite-button' class='hidden'>Click to favorite recipe
       </label>
       <button id='${recipe.id}-favorite-button' aria-label='favorite-button' class='favorite favorite-active card-button'>
@@ -78,6 +75,8 @@ function favoriteCard(event) {
   let targetedID;
   if (event.target.id.includes('-')) {
     targetedID = event.target.id.slice(0, event.target.id.indexOf('-'))
+        // i think we can delete this if conditional and just have the above line
+
   } else {
     targetedID = event.target.id
   }
@@ -115,6 +114,7 @@ function displayDirections(event) {
   let targetedID;
   if (event.target.id.includes('-')) {
     targetedID = event.target.id.slice(0, event.target.id.indexOf('-'))
+    // i think we can delete this if conditional and just have the above line
   } else {
     targetedID = event.target.id
   }
