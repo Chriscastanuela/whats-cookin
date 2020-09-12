@@ -3,12 +3,13 @@ import './css/styles.scss';
 
 import recipeData from './data/recipes';
 import ingredientsData from './data/ingredients';
-import users from './data/users';
+// import users from './data/users';
 
 import Pantry from './pantry';
 import Recipe from './recipe';
 import User from './user';
 import Cookbook from './cookbook';
+import { data } from 'jquery';
 
 let favButton = document.querySelector('.view-favorites');
 let homeButton = document.querySelector('.home')
@@ -23,15 +24,23 @@ favButton.addEventListener('click', viewFavorites);
 cardArea.addEventListener('click', cardButtonConditionals);
 
 function onStartup() {
+  fetchUserData();
+}
+
+function fetchUserData() {
   let userId = (Math.floor(Math.random() * 49) + 1)
-  let newUser = users.find(user => {
+  fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData")
+  .then(response => response.json())
+  .then(data => {
+  let newUser = data.wcUsersData.find(user => {
     return user.id === Number(userId);
   });
   user = new User(userId, newUser.name, newUser.pantry);
   pantry = new Pantry(newUser.pantry);
-  // i thin we want the user class to instantiate the pantry. Not sure, check issues
   populateCards(cookbook.recipes);
   greetUser();
+})
+  .catch(err => console.log("err", err));
 }
 
 function viewFavorites() {
