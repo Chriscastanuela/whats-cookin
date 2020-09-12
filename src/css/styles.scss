@@ -24,7 +24,7 @@ main {
 
 h1 {
   border-right: 2px solid $border-color;
-  font-size: 255%;
+  font-size: auto;
   margin-top: 0;
   margin-bottom: 0;
   padding-top: 10px;
@@ -37,7 +37,7 @@ h1 {
   background-color: $outline-color;
   border: 2px solid $border-color;
   display: flex;
-  height: auto;
+  height: 95px;
   justify-content: space-between;
   width: 100%;
 }
@@ -46,6 +46,7 @@ h1 {
   background-color: $outline-color;
   border-left: 1px solid $border-color;
   border-right: 1px solid $border-color;
+  width: auto;
   font-size: 130%;
   margin: 1%;
 }
@@ -62,7 +63,7 @@ h1 {
   display: flex;
   height: 100%;
   margin: 10px 0px 10px 0px;
-  width: 30%;
+  width: auto;
 }
 
 .search-button {
