@@ -1,9 +1,14 @@
+@mixin colorize-background($color) {
+  background-color: $color;
+}
+
 $backdrop: #37515C;
 $border-color: #000;
 $outline-color: #EBF5EE;
 
 html {
-  background-color: $backdrop;
+  // background-color: $backdrop;
+  @include colorize-background($backdrop);
   // background-image: linear-gradient(to right top, #38515c, #496876, #5b8091, #6d99ac, #80b2c9);
   border: 2px solid $border-color;
   height: 100vh;
@@ -39,8 +44,21 @@ h1 {
   display: flex;
   height: 95px;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
 }
+
+.main-header > button {
+  height: 40px;
+  width: 65px;
+  font-size: 65%;
+}
+
+.main-header > input {
+  height: 30px;
+  font-size: 65%;
+}
+
 
 .navButton {
   background-color: $outline-color;
@@ -110,7 +128,7 @@ h1 {
 
 .add-button {
   background-color: $outline-color;
-  background-color: $outline-color;
+  // background-color: $outline-color;
   background-image: url(https://image.flaticon.com/icons/svg/32/32339.svg);
   background-repeat: no-repeat;
   background-position: center;
@@ -192,7 +210,6 @@ h3 {
 }
 
 .recipe-name {
-
   display: block;
   font-size: 150%;
   text-align: center;
@@ -227,3 +244,7 @@ h3 {
   background-repeat: no-repeat;
 }
 
+@media (min-width: 790px) {
+
+
+}
