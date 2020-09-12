@@ -12,12 +12,12 @@ describe('DomUpdates', () => {
   beforeEach(() => {
     domUpdates = new DomUpdates();
     chai.spy.on(domUpdates, [
-      'viewFavorites',
+      // 'viewFavorites',
       'greetUser', 
-      'favoriteCard',
-      'cardButtonConditionals',
+      // 'favoriteCard',
+      // 'cardButtonConditionals',
       'displayDirections',
-      'getFavorites',
+      // 'getFavorites',
       'populateCards'
     ], () => true);
   });
@@ -26,10 +26,10 @@ describe('DomUpdates', () => {
     chai.spy.restore(domUpdates);
   });
 
-  it('viewFavorites', () => {
-    domUpdates.viewFavorites();
-    expect(domUpdates.viewFavorites).to.have.been.called(1);
-  });
+  // it('viewFavorites', () => {
+  //   domUpdates.viewFavorites();
+  //   expect(domUpdates.viewFavorites).to.have.been.called(1);
+  // });
 
   it('greetUser', () => {
     domUpdates.greetUser();
@@ -37,25 +37,25 @@ describe('DomUpdates', () => {
 
   });
 
-  it('favoriteCard', () => {
-    domUpdates.favoriteCard();
-    expect(domUpdates.favoriteCard).to.have.been.called(1);
-  });
+  // it('favoriteCard', () => {
+  //   domUpdates.favoriteCard();
+  //   expect(domUpdates.favoriteCard).to.have.been.called(1);
+  // });
 
-  it('cardButtonConditionals', () => {
-    domUpdates.cardButtonConditionals();
-    expect(domUpdates.cardButtonConditionals).to.have.been.called(1);
-  });
+  // it('cardButtonConditionals', () => {
+  //   domUpdates.cardButtonConditionals();
+  //   expect(domUpdates.cardButtonConditionals).to.have.been.called(1);
+  // });
 
   it('displayDirections', () => {
     domUpdates.displayDirections();
     expect(domUpdates.displayDirections).to.have.been.called(1);
   });
 
-  it('getFavorites', () => {
-    domUpdates.getFavorites();
-    expect(domUpdates.getFavorites).to.have.been.called(1);
-  });
+  // it('getFavorites', () => {
+  //   domUpdates.getFavorites();
+  //   expect(domUpdates.getFavorites).to.have.been.called(1);
+  // });
 
   it('populateCards', () => {
     domUpdates.populateCards();
