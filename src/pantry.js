@@ -7,8 +7,8 @@ class Pantry {
     let thisRecipe = recipeData.find(index => {
       return index.id == nameOrId || index.name == nameOrId;
     }).ingredients;
-    thisRecipe.forEach(index => {
-      if (!this.contents[index]) {
+    thisRecipe.forEach(i => {
+      if (!this.contents[i]) {
         toggle = "No"
       } else {
         this.contents.forEach(index => {
@@ -20,7 +20,7 @@ class Pantry {
     });
     return toggle;
   };
-  
+
   howManyIngredientsLeft(nameOrId, recipeData) {
     let contentsIds = this.contents.map(index => {
       return index.ingredient;

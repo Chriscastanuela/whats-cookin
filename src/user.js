@@ -9,7 +9,7 @@ class User {
 
   addToCategory(recipe, property) {
     if (!this[property].includes(recipe)) {
-      this[property].push(recipe)
+      this[property].push(recipe);
     }
   }
 

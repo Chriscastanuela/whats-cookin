@@ -3,12 +3,13 @@ import './css/styles.scss';
 
 import recipeData from './data/recipes';
 import ingredientsData from './data/ingredients';
-import users from './data/users';
+// import users from './data/users';
 
 import Pantry from './pantry';
 import Recipe from './recipe';
 import User from './user';
 import Cookbook from './cookbook';
+import { data } from 'jquery';
 
 let favButton = document.querySelector('.view-favorites');
 let homeButton = document.querySelector('.home')
@@ -23,14 +24,23 @@ favButton.addEventListener('click', viewFavorites);
 cardArea.addEventListener('click', cardButtonConditionals);
 
 function onStartup() {
+  fetchUserData();
+}
+
+function fetchUserData() {
   let userId = (Math.floor(Math.random() * 49) + 1)
-  let newUser = users.find(user => {
+  fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData")
+  .then(response => response.json())
+  .then(data => {
+  let newUser = data.wcUsersData.find(user => {
     return user.id === Number(userId);
   });
-  user = new User(userId, newUser.name, newUser.pantry)
-  pantry = new Pantry(newUser.pantry)
+  user = new User(userId, newUser.name, newUser.pantry);
+  pantry = new Pantry(newUser.pantry);
   populateCards(cookbook.recipes);
   greetUser();
+})
+  .catch(err => console.log("err", err));
 }
 
 function viewFavorites() {
@@ -41,24 +51,23 @@ function viewFavorites() {
     favButton.innerHTML = 'You have no favorites!';
     populateCards(cookbook.recipes);
     return
+    // we can use break if we are not trying to return anything
   } else {
-    favButton.innerHTML = 'Refresh Favorites'
+    favButton.innerHTML = 'Refresh Favorites';
     cardArea.innerHTML = '';
     user.favoriteRecipes.forEach(recipe => {
+      console.log(user.favoriteRecipes);
       cardArea.insertAdjacentHTML('afterbegin', `<article id='${recipe.id}-card'
       class='card'>
-      <header id='${recipe.id}-card-header' class='card-header'>
+      <header id='${recipe.id}-header' class='card-header'>
       <label for='add-button' class='hidden'>Click to add recipe</label>
-      <button id='${recipe.id}-button' aria-label='add-button' class='add-button card-button'>
-      <img id='${recipe.id}-add' class='add'
-      src='https://image.flaticon.com/icons/svg/32/32339.svg' alt='Add to
-      recipes to cook'></button>
+      <button id='${recipe.id}-add' aria-label='add-button' class='add-button card-button'>
       <label for='favorite-button' class='hidden'>Click to favorite recipe
       </label>
       <button id='${recipe.id}-favorite-button' aria-label='favorite-button' class='favorite favorite-active card-button'>
       </button></header>
-      <article id='${recipe.id}-article' class='recipe-name'>${recipe.name}</span>
-      <img id='${recipe.id}-card-picture' tabindex='0' class='card-picture'
+      <article id='${recipe.id}-recipie-name' class='recipe-name'>${recipe.name}</span>
+      <img id='${recipe.id}-picture' tabindex='0' class='card-picture'
       src='${recipe.image}' alt='Food from recipe'>
       </article>`)
     })
@@ -72,18 +81,29 @@ function greetUser() {
 }
 
 function favoriteCard(event) {
+  let targetedID;
+  if (event.target.id.includes('-')) {
+    targetedID = event.target.id.slice(0, event.target.id.indexOf('-'))
+        // i think we can delete this if conditional and just have the above line
+
+  } else {
+    targetedID = event.target.id
+  }
   let specificRecipe = cookbook.recipes.find(recipe => {
-    if (recipe.id  === Number(event.target.id)) {
+    if (recipe.id  === Number(targetedID)) {
+      // console.log(recipe);
+      // if (recipe.id  === Number(event.target.id)) {
       return recipe;
     }
   })
+  console.log(specificRecipe);
   if (!event.target.classList.contains('favorite-active')) {
     event.target.classList.add('favorite-active');
     favButton.innerHTML = 'View Favorites';
-    user.addToFavorites(specificRecipe);
+    user.addToCategory(specificRecipe, "favoriteRecipes");
   } else if (event.target.classList.contains('favorite-active')) {
     event.target.classList.remove('favorite-active');
-    user.removeFromFavorites(specificRecipe)
+    user.removeFromCategory(specificRecipe, "favoriteRecipes")
   }
 }
 
@@ -100,8 +120,15 @@ function cardButtonConditionals(event) {
 
 
 function displayDirections(event) {
+  let targetedID;
+  if (event.target.id.includes('-')) {
+    targetedID = event.target.id.slice(0, event.target.id.indexOf('-'))
+    // i think we can delete this if conditional and just have the above line
+  } else {
+    targetedID = event.target.id
+  }
   let newRecipeInfo = cookbook.recipes.find(recipe => {
-    if (recipe.id === Number(event.target.id)) {
+    if (recipe.id === Number(targetedID)) {
       return recipe;
     }
   })
@@ -148,21 +175,23 @@ function populateCards(recipes) {
   recipes.forEach(recipe => {
     cardArea.insertAdjacentHTML('afterbegin', `<article id='${recipe.id}-card'
     class='card'>
-        <header id='${recipe.id}-card-header' class='card-header'>
-          <label for='add-button' class='hidden'>Click to add recipe</label>
-          <button id='${recipe.id}-button' aria-label='add-button' class='add-button card-button'>
-            <img id='${recipe.id}-add' class='add'
-            src='https://image.flaticon.com/icons/svg/32/32339.svg' alt='Add to
-            recipes to cook'>
-          </button>
-          <label for='favorite-button' class='hidden'>Click to favorite recipe
-          </label>
-          <button id='${recipe.id}-favorite-button' aria-label='favorite-button' class='favorite favorite${recipe.id} card-button'></button>
+        <header id='${recipe.id}-header' class='card-header'>
+          
+            <label for='add-button' class='hidden'>Click to add recipe</label>
+            <button id='${recipe.id}-add' aria-label='add-button' class='add-button card-button'></button>
+            <label for='favorite-button' class='hidden'>Click to favorite recipe</label>
+            <button id='${recipe.id}-favorite' aria-label='favorite-button' class='favorite favorite${recipe.id} card-button'></button>
+
+          
         </header>
-          <article id='${recipe.id}-article' class='recipe-name'>${recipe.name}</article>
-          <img id='${recipe.id}-card-picture' tabindex='0' class='card-picture'
+
+        <section class="card-body">
+          <article id='${recipe.id}-recipie-name' class='recipe-name'>${recipe.name}
+          <img id='${recipe.id}-picture' tabindex='0' class='card-picture'
           src='${recipe.image}' alt='click to view recipe for ${recipe.name}'>
-    </article>`)
+          </article>
+          </section>
+          </article>`)
   })
   getFavorites();
 };
