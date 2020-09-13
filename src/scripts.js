@@ -1,24 +1,27 @@
 import './css/base.scss';
 import './css/styles.scss';
 
-import recipeData from './data/recipes';
-import ingredientsData from './data/ingredients';
-
 import Pantry from './pantry';
 import Recipe from './recipe';
 import User from './user';
-import Cookbook from './cookbook';
 import domUpdates from './dom-updates';
 
 let homeButton = document.querySelector('.home');
 let favButton = document.querySelector('.view-favorites');
 let cardArea = document.querySelector('.all-cards');
 
+let user, pantry, newUser, recipeData, ingredientsData;
 
-let cookbook = new Cookbook(recipeData);
-let user, pantry, newUser;
-
-window.onload = onStartup();
+window.onload = 
+  fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/recipes/recipeData')
+    .then(response => response.json())
+    .then(data => recipeData = data.recipeData)
+    .then(
+      fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/ingredients/ingredientsData')
+        .then(response => response.json())
+        .then(data => ingredientsData = data)
+    )
+    .then(onStartup())
 
 homeButton.addEventListener('click', cardButtonConditionals);
 favButton.addEventListener('click', viewFavorites);
@@ -39,7 +42,7 @@ function fetchUserData() {
   });
   user = new User(userId, newUser.name, newUser.pantry);
   pantry = new Pantry(newUser.pantry);
-  domUpdates.populateCards(cookbook.recipes, cardArea, user.favoriteRecipes);
+  domUpdates.populateCards(recipeData, cardArea, user.favoriteRecipes);
   domUpdates.greetUser(user.name);
   getFavorites();
 })
@@ -63,7 +66,7 @@ function cardButtonConditionals(event) {
     getDirections(event);
   } else if (event.target.classList.contains('home')) {
     favButton.innerHTML = 'View Favorites';
-    domUpdates.populateCards(cookbook.recipes, cardArea, user.favoriteRecipes);
+    domUpdates.populateCards(recipeData, cardArea, user.favoriteRecipes);
   }
 }
 
@@ -73,7 +76,7 @@ function viewFavorites() {
   }
   if (!user.favoriteRecipes.length) {
   domUpdates.showNoFavorites(favButton);
-    domUpdates.populateCards(cookbook.recipes, cardArea);
+    domUpdates.populateCards(recipeData, cardArea);
     return
     // we can use break if we are not trying to return anything
   } else {
@@ -84,21 +87,17 @@ function viewFavorites() {
 
 function favoriteCard(event) {
   let targetedID = event.target.id.slice(0, event.target.id.indexOf('-'));
-  let specificRecipe = cookbook.recipes.find(recipe => recipe.id  === Number(targetedID));
+  let specificRecipe = recipeData.find(recipe => recipe.id  === Number(targetedID));
   if (!event.target.classList.contains('favorite-active')) {
     user.addToCategory(specificRecipe, "favoriteRecipes");
-    // domUpdates.favoritesToggle(event.target);
     domUpdates.favoritesAdd(event.target);
   } else {
     user.removeFromCategory(specificRecipe, "favoriteRecipes");
-    // domUpdates.favoritesToggle(event.target);
     domUpdates.favoritesRemove(event.target);
   }
-  // domUpdates.favoritesToggle(event.target);
 }
 
 function getDirections(event) {
-
     let targetedID = event.target.id.slice(0, event.target.id.indexOf('-'))
     // i think we can delete this if conditional and just have the above line
   // } else {
