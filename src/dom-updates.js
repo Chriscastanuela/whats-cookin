@@ -15,33 +15,46 @@ let domUpdates = {
   },
 
   populateCards(recipes, cardArea, userFavorites) {
-    console.log("userFavorites", userFavorites);
     cardArea.innerHTML = '';
     if (cardArea.classList.contains('all')) {
       cardArea.classList.remove('all')
     }
-    recipes.forEach(recipe => {
-      let isFavorite;
-      if (userFavorites && userFavorites.find(favoriteRecipe => favoriteRecipe.id === recipe.id)) {
-        isFavorite = 'favorite-active';
-      } else {
-        isFavorite = '';
-      }
-      cardArea.insertAdjacentHTML('afterbegin', 
-        `<article id='${recipe.id}-card' class='card'>
-          <header id='${recipe.id}-header' class='card-header'>
-              <label for='add-button' class='hidden'>Click to add recipe</label>
-              <button id='${recipe.id}-add' aria-label='add-button' class='add-button card-button'></button>
-              <label for='favorite-button' class='hidden'>Click to favorite recipe</label>
-              <button id='${recipe.id}-favorite' aria-label='favorite-button' class='favorite ${isFavorite} card-button'></button>
-          </header>
-          <section class="card-body">
-            <article id='${recipe.id}-recipie-name' class='recipe-name'>${recipe.name}
-              <img id='${recipe.id}-picture' tabindex='0' class='card-picture' src='${recipe.image}' alt='click to view recipe for ${recipe.name}'>
-            </article>
-          </section>
-        </article>`)
-    })
+    if (recipes) {
+      recipes.forEach(recipe => {
+        this.renderCards(recipe, cardArea, userFavorites);
+      });
+    } else {
+      fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/recipes/recipeData')
+      .then(response => response.json())
+      .then(data => {
+        data.recipeData.forEach(recipe => {
+          this.renderCards(recipe, cardArea, userFavorites);
+        });
+      });
+    }
+  },
+
+  renderCards(recipe, cardArea, userFavorites) {
+    let isFavorite;
+    if (userFavorites && userFavorites.find(favoriteRecipe => favoriteRecipe.id === recipe.id)) {
+      isFavorite = 'favorite-active';
+    } else {
+      isFavorite = '';
+    }
+    cardArea.insertAdjacentHTML('afterbegin', 
+      `<article id='${recipe.id}-card' class='card'>
+        <header id='${recipe.id}-header' class='card-header'>
+            <label for='add-button' class='hidden'>Click to add recipe</label>
+            <button id='${recipe.id}-add' aria-label='add-button' class='add-button card-button'></button>
+            <label for='favorite-button' class='hidden'>Click to favorite recipe</label>
+            <button id='${recipe.id}-favorite' aria-label='favorite-button' class='favorite ${isFavorite} card-button'></button>
+        </header>
+        <section class="card-body">
+          <article id='${recipe.id}-recipie-name' class='recipe-name'>${recipe.name}
+            <img id='${recipe.id}-picture' tabindex='0' class='card-picture' src='${recipe.image}' alt='click to view recipe for ${recipe.name}'>
+          </article>
+        </section>
+      </article>`)
   },
 
   removeAll(cardArea) {
