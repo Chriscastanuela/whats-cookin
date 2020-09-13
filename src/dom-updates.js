@@ -104,9 +104,17 @@ let domUpdates = {
     })
   },
 
-  favoritesToggle(target) {
-    target.classList.toggle('favorite-active');
+  favoritesAdd(target) {
+    target.classList.add('favorite-active');
   },
+
+  favoritesRemove(target) {
+    target.classList.remove('favorite-active');
+  },
+
+  refreshFavorites(favButton) {
+    favButton.innerHTML = 'Refresh Favorites';
+  }
 }
 
 export default domUpdates;
