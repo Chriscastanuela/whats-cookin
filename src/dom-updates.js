@@ -14,7 +14,7 @@ let domUpdates = {
     `${name}`.split(' ')[0] + ' ' + `${name}`.split(' ')[1];
   },
 
-  populateCards(recipes) {
+  populateCards(recipes, cardArea) {
     cardArea.innerHTML = '';
     if (cardArea.classList.contains('all')) {
       cardArea.classList.remove('all')
@@ -37,19 +37,18 @@ let domUpdates = {
     })
   },
 
-  removeAll() {
+  removeAll(cardArea) {
     cardArea.classList.remove('all')
   },
 
-  showNoFavorites() {
+  showNoFavorites(favButton) {
     favButton.innerHTML = 'You have no favorites!';
   },
 
-  displayFavorites(userFavorites) {
+  displayFavorites(userFavorites, favButton, cardArea) {
       favButton.innerHTML = 'Refresh Favorites';
       cardArea.innerHTML = '';
       userFavorites.forEach(recipe => {
-        console.log(userFavorites);
         cardArea.insertAdjacentHTML('afterbegin', 
           `<article id='${recipe.id}-card' class='card'>
             <header id='${recipe.id}-header' class='card-header'>
@@ -67,7 +66,7 @@ let domUpdates = {
     // }
   },
 
-  displayDirections(recipe, cost) {
+  displayDirections(recipe, cost, cardArea) {
     cardArea.classList.add('all');
     cardArea.innerHTML = 
       `<h3>${recipe.name}</h3>

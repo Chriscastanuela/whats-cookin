@@ -3,14 +3,12 @@ import './css/styles.scss';
 
 import recipeData from './data/recipes';
 import ingredientsData from './data/ingredients';
-// import users from './data/users';
 
 import Pantry from './pantry';
 import Recipe from './recipe';
 import User from './user';
 import Cookbook from './cookbook';
 import domUpdates from './dom-updates';
-import { data } from 'jquery';
 
 let homeButton = document.querySelector('.home');
 let favButton = document.querySelector('.view-favorites');
@@ -28,8 +26,7 @@ cardArea.addEventListener('click', cardButtonConditionals);
 
 function onStartup() {
   fetchUserData();
-  domUpdates.populateCards(recipeData);
-  // getFavorites();
+  domUpdates.populateCards(recipeData, cardArea);
 }
 
 function fetchUserData() {
@@ -40,10 +37,9 @@ function fetchUserData() {
   newUser = data.wcUsersData.find(user => {
     return user.id === Number(userId);
   });
-  console.log(newUser);
   user = new User(userId, newUser.name, newUser.pantry);
   pantry = new Pantry(newUser.pantry);
-  domUpdates.populateCards(cookbook.recipes);
+  domUpdates.populateCards(cookbook.recipes, cardArea);
   domUpdates.greetUser(user.name);
   getFavorites();
 })
@@ -67,59 +63,44 @@ function cardButtonConditionals(event) {
     getDirections(event);
   } else if (event.target.classList.contains('home')) {
     favButton.innerHTML = 'View Favorites';
-    domUpdates.populateCards(cookbook.recipes);
+    domUpdates.populateCards(cookbook.recipes, cardArea);
   }
 }
 
 function viewFavorites() {
   if (cardArea.classList.contains('all')) {
-    domUpdates.removeAll();
+    domUpdates.removeAll(cardArea);
   }
   if (!user.favoriteRecipes.length) {
-  domUpdates.showNoFavorites();
-    domUpdates.populateCards(cookbook.recipes);
+  domUpdates.showNoFavorites(favButton);
+    domUpdates.populateCards(cookbook.recipes, cardArea);
     return
     // we can use break if we are not trying to return anything
   } else {
-  domUpdates.displayFavorites(user.favoriteRecipes)
+  domUpdates.displayFavorites(user.favoriteRecipes, favButton, cardArea)
   }
 }
 
 function favoriteCard(event) {
-  // let targetedID;
-  // if (event.target.id.includes('-')) {
-    let targetedID = event.target.id.slice(0, event.target.id.indexOf('-'));
-        // i think we can delete this if conditional and just have the above line
-  // } else {
-    // targetedID = event.target.id
-  // }
-  let specificRecipe = cookbook.recipes.find(recipe => {
-    if (recipe.id  === Number(targetedID)) {
-      // console.log(recipe);
-      // if (recipe.id  === Number(event.target.id)) {
-      return recipe;
-    }
-  })
-
-  if (!target.classList.contains('favorite-active')) {
+  let targetedID = event.target.id.slice(0, event.target.id.indexOf('-'));
+  let specificRecipe = cookbook.recipes.find(recipe => recipe.id  === Number(targetedID));
+  if (!event.target.classList.contains('favorite-active')) {
     user.addToCategory(specificRecipe, "favoriteRecipes");
-    domUpdates.favoritesToggle();
-  } else if (target.classList.contains('favorite-active')) {
+    // domUpdates.favoritesToggle(event.target);
+  } else {
     user.removeFromCategory(specificRecipe, "favoriteRecipes");
-    domUpdates.favoritesToggle();
+    // domUpdates.favoritesToggle(event.target);
   }
-
-  domUpdates.displayFavoriteCard(event.target)
+  domUpdates.favoritesToggle(event.target);
 }
 
 function getDirections(event) {
-  let targetedID;
-  if (event.target.id.includes('-')) {
-    targetedID = event.target.id.slice(0, event.target.id.indexOf('-'))
+
+    let targetedID = event.target.id.slice(0, event.target.id.indexOf('-'))
     // i think we can delete this if conditional and just have the above line
-  } else {
-    targetedID = event.target.id
-  }
+  // } else {
+  //   targetedID = event.target.id
+  // }
   let newRecipeInfo = cookbook.recipes.find(recipe => {
     if (recipe.id === Number(targetedID)) {
       return recipe;
@@ -128,8 +109,5 @@ function getDirections(event) {
   let recipeObject = new Recipe(newRecipeInfo, ingredientsData);
   let cost = recipeObject.calculateCost();
   let costInDollars = (cost / 100).toFixed(2);
-  console.log("recipeObject", recipeObject);
-  domUpdates.displayDirections(recipeObject, costInDollars);
+  domUpdates.displayDirections(recipeObject, costInDollars, cardArea);
 }
-
-export default scripts;
