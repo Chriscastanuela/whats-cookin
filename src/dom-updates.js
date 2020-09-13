@@ -30,7 +30,8 @@ let domUpdates = {
         data.recipeData.forEach(recipe => {
           this.renderCards(recipe, cardArea, userFavorites);
         });
-      });
+      })
+      .catch(err => console.log("err", err));
     }
   },
 

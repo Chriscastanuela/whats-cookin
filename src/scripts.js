@@ -20,9 +20,10 @@ window.onload =
       fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/ingredients/ingredientsData')
         .then(response => response.json())
         .then(data => ingredientsData = data)
+        .catch(err => console.log("err", err))
     )
     .then(onStartup())
-
+    .catch(err => console.log("err", err));
 homeButton.addEventListener('click', cardButtonConditionals);
 favButton.addEventListener('click', viewFavorites);
 cardArea.addEventListener('click', cardButtonConditionals);
