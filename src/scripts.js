@@ -1,35 +1,36 @@
 import './css/base.scss';
 import './css/styles.scss';
 
-import recipeData from './data/recipes';
-import ingredientsData from './data/ingredients';
-// import users from './data/users';
-
 import Pantry from './pantry';
 import Recipe from './recipe';
 import User from './user';
-import Cookbook from './cookbook';
 import domUpdates from './dom-updates';
-import { data } from 'jquery';
 
 let homeButton = document.querySelector('.home');
 let favButton = document.querySelector('.view-favorites');
 let cardArea = document.querySelector('.all-cards');
 
+let user, pantry, newUser, recipeData, ingredientsData;
 
-let cookbook = new Cookbook(recipeData);
-let user, pantry, newUser;
-
-window.onload = onStartup();
-
+window.onload = 
+  fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/recipes/recipeData')
+    .then(response => response.json())
+    .then(data => recipeData = data.recipeData)
+    .then(
+      fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/ingredients/ingredientsData')
+        .then(response => response.json())
+        .then(data => ingredientsData = data)
+        .catch(err => console.log("err", err))
+    )
+    .then(onStartup())
+    .catch(err => console.log("err", err));
 homeButton.addEventListener('click', cardButtonConditionals);
 favButton.addEventListener('click', viewFavorites);
 cardArea.addEventListener('click', cardButtonConditionals);
 
 function onStartup() {
   fetchUserData();
-  domUpdates.populateCards(recipeData);
-  // getFavorites();
+  domUpdates.populateCards(recipeData, cardArea);
 }
 
 function fetchUserData() {
@@ -40,10 +41,9 @@ function fetchUserData() {
   newUser = data.wcUsersData.find(user => {
     return user.id === Number(userId);
   });
-  console.log(newUser);
   user = new User(userId, newUser.name, newUser.pantry);
   pantry = new Pantry(newUser.pantry);
-  domUpdates.populateCards(cookbook.recipes);
+  domUpdates.populateCards(recipeData, cardArea, user.favoriteRecipes);
   domUpdates.greetUser(user.name);
   getFavorites();
 })
@@ -67,69 +67,42 @@ function cardButtonConditionals(event) {
     getDirections(event);
   } else if (event.target.classList.contains('home')) {
     favButton.innerHTML = 'View Favorites';
-    domUpdates.populateCards(cookbook.recipes);
+    domUpdates.populateCards(recipeData, cardArea, user.favoriteRecipes);
   }
 }
 
 function viewFavorites() {
   if (cardArea.classList.contains('all')) {
-    domUpdates.removeAll();
+    domUpdates.removeAll(cardArea);
   }
   if (!user.favoriteRecipes.length) {
-  domUpdates.showNoFavorites();
-    domUpdates.populateCards(cookbook.recipes);
+  domUpdates.showNoFavorites(favButton);
+    domUpdates.populateCards(recipeData, cardArea);
     return
     // we can use break if we are not trying to return anything
   } else {
-  domUpdates.displayFavorites(user.favoriteRecipes)
+  domUpdates.populateCards(user.favoriteRecipes, cardArea, user.favoriteRecipes);
+  domUpdates.refreshFavorites(favButton);
   }
 }
 
 function favoriteCard(event) {
-  let targetedID;
-  if (event.target.id.includes('-')) {
-    targetedID = event.target.id.slice(0, event.target.id.indexOf('-'))
-        // i think we can delete this if conditional and just have the above line
-  } else {
-    targetedID = event.target.id
-  }
-  let specificRecipe = cookbook.recipes.find(recipe => {
-    if (recipe.id  === Number(targetedID)) {
-      // console.log(recipe);
-      // if (recipe.id  === Number(event.target.id)) {
-      return recipe;
-    }
-  })
-  console.log(specificRecipe);
-  // remove this console log
+  let targetedID = event.target.id.slice(0, event.target.id.indexOf('-'));
+  let specificRecipe = recipeData.find(recipe => recipe.id  === Number(targetedID));
   if (!event.target.classList.contains('favorite-active')) {
-    event.target.classList.add('favorite-active');
-    favButton.innerHTML = 'View Favorites';
     user.addToCategory(specificRecipe, "favoriteRecipes");
-  } else if (event.target.classList.contains('favorite-active')) {
-    event.target.classList.remove('favorite-active');
-    user.removeFromCategory(specificRecipe, "favoriteRecipes")
+    domUpdates.favoritesAdd(event.target);
+  } else {
+    user.removeFromCategory(specificRecipe, "favoriteRecipes");
+    domUpdates.favoritesRemove(event.target);
   }
 }
 
 function getDirections(event) {
-  let targetedID;
-  if (event.target.id.includes('-')) {
-    targetedID = event.target.id.slice(0, event.target.id.indexOf('-'))
-    // i think we can delete this if conditional and just have the above line
-  } else {
-    targetedID = event.target.id
-  }
-  let newRecipeInfo = cookbook.recipes.find(recipe => {
-    if (recipe.id === Number(targetedID)) {
-      return recipe;
-    }
-  })
-  let recipeObject = new Recipe(newRecipeInfo, ingredientsData);
+  let targetedID = event.target.id.slice(0, event.target.id.indexOf('-'))
+  let newRecipeInfo = recipeData.find(recipe => recipe.id === Number(targetedID))
+  let recipeObject = new Recipe(newRecipeInfo, ingredientsData.ingredientsData);
   let cost = recipeObject.calculateCost();
   let costInDollars = (cost / 100).toFixed(2);
-  console.log("recipeObject", recipeObject);
-  domUpdates.displayDirections(recipeObject, costInDollars);
+  domUpdates.displayDirections(recipeObject, costInDollars, cardArea);
 }
-
-export default scripts;

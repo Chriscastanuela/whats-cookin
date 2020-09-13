@@ -1,16 +1,14 @@
 const chai = require('chai');
 const expect = chai.expect;
 const spies = require('chai-spies');
-import DomUpdates from '../src/dom-updates';
+import domUpdates from '../src/dom-updates';
 
 chai.use(spies);
 
 // insertAdjacentHTML = {}
 
 describe('DomUpdates', () => {
-  let domUpdates;
   beforeEach(() => {
-    domUpdates = new DomUpdates();
     chai.spy.on(domUpdates, [
       // 'viewFavorites',
       'greetUser', 
