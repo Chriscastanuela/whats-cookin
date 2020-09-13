@@ -14,19 +14,26 @@ let domUpdates = {
     `${name}`.split(' ')[0] + ' ' + `${name}`.split(' ')[1];
   },
 
-  populateCards(recipes, cardArea) {
+  populateCards(recipes, cardArea, userFavorites) {
+    console.log("userFavorites", userFavorites);
     cardArea.innerHTML = '';
     if (cardArea.classList.contains('all')) {
       cardArea.classList.remove('all')
     }
     recipes.forEach(recipe => {
+      let isFavorite;
+      if (userFavorites && userFavorites.find(favoriteRecipe => favoriteRecipe.id === recipe.id)) {
+        isFavorite = 'favorite-active';
+      } else {
+        isFavorite = '';
+      }
       cardArea.insertAdjacentHTML('afterbegin', 
         `<article id='${recipe.id}-card' class='card'>
           <header id='${recipe.id}-header' class='card-header'>
               <label for='add-button' class='hidden'>Click to add recipe</label>
               <button id='${recipe.id}-add' aria-label='add-button' class='add-button card-button'></button>
               <label for='favorite-button' class='hidden'>Click to favorite recipe</label>
-              <button id='${recipe.id}-favorite' aria-label='favorite-button' class='favorite favorite${recipe.id} card-button'></button>
+              <button id='${recipe.id}-favorite' aria-label='favorite-button' class='favorite ${isFavorite} card-button'></button>
           </header>
           <section class="card-body">
             <article id='${recipe.id}-recipie-name' class='recipe-name'>${recipe.name}
@@ -45,26 +52,25 @@ let domUpdates = {
     favButton.innerHTML = 'You have no favorites!';
   },
 
-  displayFavorites(userFavorites, favButton, cardArea) {
-      favButton.innerHTML = 'Refresh Favorites';
-      cardArea.innerHTML = '';
-      userFavorites.forEach(recipe => {
-        cardArea.insertAdjacentHTML('afterbegin', 
-          `<article id='${recipe.id}-card' class='card'>
-            <header id='${recipe.id}-header' class='card-header'>
-              <label for='add-button' class='hidden'>Click to add recipe</label>
-              <button id='${recipe.id}-add' aria-label='add-button' class='add-button card-button'>
-              <label for='favorite-button' class='hidden'>Click to favorite recipe
-              </label>
-              <button id='${recipe.id}-favorite-button' aria-label='favorite-button' class='favorite favorite-active card-button'>
-              </button>
-            </header>
-            <article id='${recipe.id}-recipie-name' class='recipe-name'>${recipe.name}</article>
-            <img id='${recipe.id}-picture' tabindex='0' class='card-picture' src='${recipe.image}' alt='Food from recipe'>
-          </article>`)
-      });
-    // }
-  },
+  // displayFavorites(userFavorites, cardArea) {
+  //     cardArea.innerHTML = '';
+  //     userFavorites.forEach(recipe => {
+  //       cardArea.insertAdjacentHTML('afterbegin', 
+  //         `<article id='${recipe.id}-card' class='card'>
+  //           <header id='${recipe.id}-header' class='card-header'>
+  //             <label for='add-button' class='hidden'>Click to add recipe</label>
+  //             <button id='${recipe.id}-add' aria-label='add-button' class='add-button card-button'>
+  //             <label for='favorite-button' class='hidden'>Click to favorite recipe
+  //             </label>
+  //             <button id='${recipe.id}-favorite-button' aria-label='favorite-button' class='favorite favorite-active card-button'>
+  //             </button>
+  //           </header>
+  //           <article id='${recipe.id}-recipie-name' class='recipe-name'>${recipe.name}</article>
+  //           <img id='${recipe.id}-picture' tabindex='0' class='card-picture' src='${recipe.image}' alt='Food from recipe'>
+  //         </article>`)
+  //     });
+  //   // }
+  // },
 
   displayDirections(recipe, cost, cardArea) {
     cardArea.classList.add('all');

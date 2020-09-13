@@ -39,7 +39,7 @@ function fetchUserData() {
   });
   user = new User(userId, newUser.name, newUser.pantry);
   pantry = new Pantry(newUser.pantry);
-  domUpdates.populateCards(cookbook.recipes, cardArea);
+  domUpdates.populateCards(cookbook.recipes, cardArea, user.favoriteRecipes);
   domUpdates.greetUser(user.name);
   getFavorites();
 })
@@ -63,7 +63,7 @@ function cardButtonConditionals(event) {
     getDirections(event);
   } else if (event.target.classList.contains('home')) {
     favButton.innerHTML = 'View Favorites';
-    domUpdates.populateCards(cookbook.recipes, cardArea);
+    domUpdates.populateCards(cookbook.recipes, cardArea, user.favoriteRecipes);
   }
 }
 
@@ -77,7 +77,8 @@ function viewFavorites() {
     return
     // we can use break if we are not trying to return anything
   } else {
-  domUpdates.displayFavorites(user.favoriteRecipes, favButton, cardArea)
+  domUpdates.populateCards(user.favoriteRecipes, cardArea, user.favoriteRecipes);
+  domUpdates.refreshFavorites(favButton);
   }
 }
 
@@ -87,11 +88,13 @@ function favoriteCard(event) {
   if (!event.target.classList.contains('favorite-active')) {
     user.addToCategory(specificRecipe, "favoriteRecipes");
     // domUpdates.favoritesToggle(event.target);
+    domUpdates.favoritesAdd(event.target);
   } else {
     user.removeFromCategory(specificRecipe, "favoriteRecipes");
     // domUpdates.favoritesToggle(event.target);
+    domUpdates.favoritesRemove(event.target);
   }
-  domUpdates.favoritesToggle(event.target);
+  // domUpdates.favoritesToggle(event.target);
 }
 
 function getDirections(event) {
