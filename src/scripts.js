@@ -86,13 +86,13 @@ function viewFavorites() {
 }
 
 function favoriteCard(event) {
-  let targetedID;
-  if (event.target.id.includes('-')) {
-    targetedID = event.target.id.slice(0, event.target.id.indexOf('-'))
+  // let targetedID;
+  // if (event.target.id.includes('-')) {
+    let targetedID = event.target.id.slice(0, event.target.id.indexOf('-'));
         // i think we can delete this if conditional and just have the above line
-  } else {
-    targetedID = event.target.id
-  }
+  // } else {
+    // targetedID = event.target.id
+  // }
   let specificRecipe = cookbook.recipes.find(recipe => {
     if (recipe.id  === Number(targetedID)) {
       // console.log(recipe);
@@ -100,16 +100,16 @@ function favoriteCard(event) {
       return recipe;
     }
   })
-  console.log(specificRecipe);
-  // remove this console log
-  if (!event.target.classList.contains('favorite-active')) {
-    event.target.classList.add('favorite-active');
-    favButton.innerHTML = 'View Favorites';
+
+  if (!target.classList.contains('favorite-active')) {
     user.addToCategory(specificRecipe, "favoriteRecipes");
-  } else if (event.target.classList.contains('favorite-active')) {
-    event.target.classList.remove('favorite-active');
-    user.removeFromCategory(specificRecipe, "favoriteRecipes")
+    domUpdates.favoritesToggle();
+  } else if (target.classList.contains('favorite-active')) {
+    user.removeFromCategory(specificRecipe, "favoriteRecipes");
+    domUpdates.favoritesToggle();
   }
+
+  domUpdates.displayFavoriteCard(event.target)
 }
 
 function getDirections(event) {

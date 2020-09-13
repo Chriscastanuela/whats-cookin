@@ -1,9 +1,9 @@
-import Recipe from './recipe';
+// import Recipe from './recipe';
 
-import scripts from './scripts';
+// import scripts from './scripts';
 
-let favButton = document.querySelector('.view-favorites');
-let cardArea = document.querySelector('.all-cards');
+// let favButton = document.querySelector('.view-favorites');
+// let cardArea = document.querySelector('.all-cards');
 
 let domUpdates = {
 
@@ -97,6 +97,10 @@ let domUpdates = {
       instructionsSpan.insertAdjacentHTML('beforebegin', 
       `<li>${instruction.instruction}</li>`)
     })
+  },
+
+  favoritesToggle(target) {
+    target.classList.toggle('favorite-active');
   },
 }
 
