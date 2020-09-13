@@ -98,17 +98,9 @@ function favoriteCard(event) {
 }
 
 function getDirections(event) {
-    let targetedID = event.target.id.slice(0, event.target.id.indexOf('-'))
-    // i think we can delete this if conditional and just have the above line
-  // } else {
-  //   targetedID = event.target.id
-  // }
-  let newRecipeInfo = cookbook.recipes.find(recipe => {
-    if (recipe.id === Number(targetedID)) {
-      return recipe;
-    }
-  })
-  let recipeObject = new Recipe(newRecipeInfo, ingredientsData);
+  let targetedID = event.target.id.slice(0, event.target.id.indexOf('-'))
+  let newRecipeInfo = recipeData.find(recipe => recipe.id === Number(targetedID))
+  let recipeObject = new Recipe(newRecipeInfo, ingredientsData.ingredientsData);
   let cost = recipeObject.calculateCost();
   let costInDollars = (cost / 100).toFixed(2);
   domUpdates.displayDirections(recipeObject, costInDollars, cardArea);
