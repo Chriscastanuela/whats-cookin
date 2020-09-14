@@ -8,6 +8,7 @@ import domUpdates from './dom-updates';
 
 let homeButton = document.querySelector('.home');
 let favButton = document.querySelector('.view-favorites');
+let recipesToCookButton = document.querySelector('.view-recipies-to-cook');
 let cardArea = document.querySelector('.all-cards');
 
 let user, pantry, newUser, recipeData, ingredientsData;
@@ -27,6 +28,7 @@ window.onload =
 homeButton.addEventListener('click', cardButtonConditionals);
 favButton.addEventListener('click', viewFavorites);
 cardArea.addEventListener('click', cardButtonConditionals);
+recipesToCookButton.addEventListener('click', viewRecipiesToCook);
 
 function onStartup() {
   fetchUserData();
@@ -68,6 +70,8 @@ function cardButtonConditionals(event) {
   } else if (event.target.classList.contains('home')) {
     favButton.innerHTML = 'View Favorites';
     domUpdates.populateCards(recipeData, cardArea, user.favoriteRecipes);
+  } else if (event.target.classList.contains('add-button')) {
+    addRecipieToCookList(event)
   }
 }
 
@@ -86,15 +90,40 @@ function viewFavorites() {
   }
 }
 
+function viewRecipiesToCook() {
+  if (cardArea.classList.contains('all')) {
+    domUpdates.removeAll(cardArea);
+  }
+  if (!user.recipesToCook.length) {
+    domUpdates.showNoCookList(recipesToCookButton);
+    domUpdates.populateCards(recipeData, cardArea);
+    return
+  } else {
+    domUpdates.populateCards(user.recipesToCook, cardArea, user.favoriteRecipes);
+  }
+}
+
 function favoriteCard(event) {
   let targetedID = event.target.id.slice(0, event.target.id.indexOf('-'));
   let specificRecipe = recipeData.find(recipe => recipe.id  === Number(targetedID));
   if (!event.target.classList.contains('favorite-active')) {
+    // is the above line using the DOM to update the data model? Should be an easy fix
     user.addToCategory(specificRecipe, "favoriteRecipes");
     domUpdates.favoritesAdd(event.target);
   } else {
     user.removeFromCategory(specificRecipe, "favoriteRecipes");
     domUpdates.favoritesRemove(event.target);
+  }
+}
+
+function addRecipieToCookList(event) {
+  
+
+  let targetedID = event.target.id.slice(0, event.target.id.indexOf('-'));
+  let specificRecipe = recipeData.find(recipe => recipe.id  === Number(targetedID));
+  if (!user.recipesToCook.includes(specificRecipe)) {
+    user.addToCategory(specificRecipe, "recipesToCook");
+
   }
 }
 
