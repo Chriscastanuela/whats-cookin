@@ -91,6 +91,7 @@ function viewFavorites() {
 }
 
 function viewRecipiesToCook() {
+  favButton.innerHTML = 'View Favorites';
   if (cardArea.classList.contains('all')) {
     domUpdates.removeAll(cardArea);
   }
@@ -100,6 +101,7 @@ function viewRecipiesToCook() {
     return
   } else {
     domUpdates.populateCards(user.recipesToCook, cardArea, user.favoriteRecipes);
+    // domUpdates.refreshFavorites(favButton);
   }
 }
 
