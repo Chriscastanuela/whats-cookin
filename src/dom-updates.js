@@ -66,6 +66,10 @@ let domUpdates = {
     favButton.innerHTML = 'You have no favorites!';
   },
 
+  showNoCookList(recipesToCookButton) {
+    recipesToCookButton.innerHTML = "You have no cooklist!";
+  },
+
   // displayFavorites(userFavorites, cardArea) {
   //     cardArea.innerHTML = '';
   //     userFavorites.forEach(recipe => {
