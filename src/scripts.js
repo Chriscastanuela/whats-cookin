@@ -52,8 +52,6 @@ function fetchUserData() {
   .catch(err => console.log("err", err));
 }
 
-//<---------------------------------------------------------------
-
 function getFavorites() {
   if (user.favoriteRecipes.length) {
     user.favoriteRecipes.forEach(recipe => {
@@ -133,7 +131,6 @@ function cookCard(event) {
   let targetedID = parseInt(event.target.id.slice(0, event.target.id.indexOf('-')));
   console.log(targetedID);
   let currentRecipe = recipeData.find(recipe => recipe.id === targetedID);
-  // console.log("currentRecipe", currentRecipe);
   console.log('user.checkPantry(currentRecipe.ingredients)', user.checkPantry(currentRecipe.ingredients));
   if (user.checkPantry(currentRecipe.ingredients)) {
     user.cook(targetedID, recipeData);
