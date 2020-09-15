@@ -33,6 +33,19 @@ class User {
     });
   }
 
+
+/*
+searchRecipies(stringToSearch, property) {
+  
+
+}
+
+
+
+*/
+
+
+
   checkPantry(recipeIngredients) {
     let toggle = false;
     let toggleArray = []

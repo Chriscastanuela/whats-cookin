@@ -10,6 +10,8 @@ let homeButton = document.querySelector('.home');
 let favButton = document.querySelector('.view-favorites');
 let recipesToCookButton = document.querySelector('.view-recipies-to-cook');
 let cardArea = document.querySelector('.all-cards');
+let searchButtons = document.querySelector('.search-buttons');
+let searchBar = document.querySelector('.search-any');
 
 let user, pantry, newUser, recipeData, ingredientsData;
 
@@ -29,6 +31,7 @@ homeButton.addEventListener('click', cardButtonConditionals);
 favButton.addEventListener('click', viewFavorites);
 cardArea.addEventListener('click', cardButtonConditionals);
 recipesToCookButton.addEventListener('click', viewRecipiesToCook);
+searchButtons.addEventListener('click', searchRecipes);
 
 function onStartup() {
   fetchUserData();
@@ -50,6 +53,22 @@ function fetchUserData() {
   getFavorites();
 })
   .catch(err => console.log("err", err));
+}
+
+function searchRecipes(event) {
+  if (event.target.classList.contains('search-name')) {
+  // console.log('name', user.findInCategory(searchBar.value, 'name'))
+  searchStuff('name')
+  } else if (event.target.classList.contains('search-tag')) {
+    // console.log('tag', user.findInCategory(searchBar.value, 'tag'))
+    searchStuff('tags')
+    }
+}
+
+
+function searchStuff(value) {
+  let searchedData = recipeData.filter(recipe => recipe[`${value}`].includes(searchBar.value));
+  domUpdates.populateCards(searchedData, cardArea, user.favoriteRecipes);
 }
 
 function getFavorites() {
