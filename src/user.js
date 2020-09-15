@@ -54,9 +54,10 @@ class User {
       return ingredientA.ingredientID - ingredientB.ingredientID;
     });
     sortedRecipeIngredients.forEach((ingredient, index) => {
-      if (sortedPantryIngredients[index] && sortedPantryIngredients[index].amount + parseInt(ingredient.ingredientModification) > 0) {
+      if (sortedPantryIngredients[index] && sortedPantryIngredients[index].amount + parseInt(ingredient.ingredientModification) >= 0) {
         toggleArray.push(true);
       } else {
+        console.log("User -> checkPantry -> ingredient", ingredient)
         toggleArray.push(false);
       }
     })
@@ -69,19 +70,6 @@ class User {
     }
     console.log("toggleArray", toggleArray)
     return toggle;
-  }
-
-  cookMeal(recipeIngredients) {
-    if (!this.checkPantry(recipeIngredients)) {
-      return "Not enough ingredients for this"
-    }
-    recipeIngredients.forEach(ingredient => {
-      this.pantry.forEach(index => {
-        if (index.ingredient == ingredient.id) {
-          index.amount -= ingredient.quantity.amount;
-        } 
-      })
-    })
   }
 
   returnAmount(recipeIngredients) {
