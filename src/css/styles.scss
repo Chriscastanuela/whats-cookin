@@ -9,7 +9,6 @@ $box-shadow: 5px 10px 18px #647A85;
 $background-image: linear-gradient(to right, #38515c, #405864, #48606b, #516773, #596f7b, #59727e, #597682, #597985, #507884, #457782, #3a7680, #2e757d);
 
 html {
-  // background-color: $backdrop;
   @include colorize-background($backdrop);
   border: 2px solid $border-color;
   height: 100vh;
@@ -24,7 +23,6 @@ body {
 }
 
 main {
-  // background-color: $backdrop;
   @include colorize-background($backdrop);
   background-image: $background-image;
   height: 100%;
@@ -44,7 +42,6 @@ h1 {
 }
 
 .main-header {
-  // background-color: $outline-color;
   @include colorize-background($outline-color);
   border: 2px solid $border-color;
   display: flex;
@@ -67,7 +64,6 @@ h1 {
 
 
 .navButton {
-  // background-color: $outline-color;
   @include colorize-background($outline-color);
   border-left: 1px solid $border-color;
   border-right: 1px solid $border-color;
@@ -80,7 +76,6 @@ h1 {
 
 .user-info {
   font-size: 140%;
-  // font-size: 140%;
   margin: auto;
   text-align: center;
   width: 35%
@@ -93,15 +88,6 @@ h1 {
   width: auto;
 }
 
-// .search-button {
-//   // background-color: $outline-color;
-//   @include colorize-background($outline-color);
-//   border: 1px solid $border-color;
-//   width: 20%;
-//   height: 58px;
-//   margin-top: 3px;
-//   box-shadow: $box-shadow;
-// }
 .search-tag:hover,
 .search-name:hover,
 .search-image:hover,
@@ -135,17 +121,6 @@ h1 {
   box-shadow: $box-shadow;
 }
 
-// .search-input {
-//   border: 1px solid $border-color;
-//   font-size: 100%;
-//   height: 7vh;
-//   margin: 3px 7px 0px 0px;
-//   padding-left: 10px;
-//   width: 90%;
-//   box-shadow: $box-shadow;
-// }
-
-
 .card-button {
   border: 1px solid $border-color;
   height: 27px;
@@ -157,50 +132,28 @@ h1 {
 
 
 .add-button {
-  // background-color: $outline-color;
   @include colorize-background($outline-color);
-
-  // background-color: $outline-color;
   background-image: url(https://image.flaticon.com/icons/svg/32/32339.svg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: 100%;
   box-shadow: $box-shadow;
-  // width: 13%;
 }
-
-// .add {
-//   background-color: $outline-color;
-//   background-image: url(https://image.flaticon.com/icons/svg/32/32339.svg);
-//   background-repeat: no-repeat;
-//   background-position: center;
-//   background-size: 100%;
-//   width: 13%;
-// }
-
-// <img id='${recipe.id} favorite' class='add'
-// src='https://image.flaticon.com/icons/svg/32/32339.svg' alt='Add to
-// recipes to cook'>
 
 .hidden {
   display: none;
 }
 
-
 .favorite {
-  // background-color: $outline-color;
   @include colorize-background($outline-color);
-
   background-image: url(https://image.flaticon.com/icons/svg/149/149222.svg);
   background-repeat: no-repeat;
   background-position: center;
-  // width: 13%;
 }
 
 .all-cards {
   display: grid;
   grid-gap: 30px;
-  // grid-template-rows: wrap;
   grid-template-columns: repeat(auto-fill, 300px);
   justify-content: center;
   padding: 30px 0 30px 30px;
@@ -212,7 +165,6 @@ img {
 }
 
 .card {
-  // background-color: $outline-color;
   @include colorize-background($outline-color);
 
   border: 3px solid $border-color;
@@ -226,7 +178,6 @@ img {
 
 
 .card-header {
-  // background-color: $outline-color;
   @include colorize-background($outline-color);
   background-color: #2F757D;
   border-bottom: 1px solid $border-color;
