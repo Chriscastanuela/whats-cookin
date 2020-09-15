@@ -105,9 +105,23 @@ h1 {
 .search-image:hover,
 .card-button:hover,
 .navButton:hover,
-.search-button:hover {
+.search-button:hover,
+.cook-button:hover {
   background-color: #5dc3eb;
   box-shadow: $box-shadow;
+  cursor: pointer;
+}
+
+.cook-button {
+  font-family: 'Yellowtail', cursive;
+  background-color: #C3C2C6;
+  box-shadow: $box-shadow;
+  border: 1px solid $border-color;
+  background-color: #F1F1E6;
+  border-bottom-left-radius: 7%;
+  border-bottom-right-radius: 7%;
+  border-top-left-radius: 1%;
+  border-top-right-radius: 1%;
 }
 
 

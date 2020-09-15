@@ -34,18 +34,40 @@ class User {
   }
 
   checkPantry(recipeIngredients) {
-    let toggle = true;
-    let pantryIds = this.pantry.map(index => {
-      return index.ingredient;
-    })
+    let toggle = false;
+    let toggleArray = []
+    let recipeIngredientsForRecipe = this.returnAmount(recipeIngredients)
     let recipeIds = recipeIngredients.map(index => {
       return index.id;
-    })
-    recipeIds.forEach(index => {
-      if (!pantryIds.includes(index)) {
-        toggle = false
+    });
+    let pantryIngredientsInRecipe = this.pantry.filter(ingredient => {
+      let foundIngredients = recipeIds.find(recipeID => {
+        return ingredient.ingredient === recipeID;
+      });
+      return foundIngredients != undefined; 
+    });
+
+    let sortedPantryIngredients = pantryIngredientsInRecipe.sort((ingredientA, ingredientB) => {
+        return ingredientA.ingredient - ingredientB.ingredient;
+      })
+    let sortedRecipeIngredients = recipeIngredientsForRecipe.sort((ingredientA, ingredientB) => {
+      return ingredientA.ingredientID - ingredientB.ingredientID;
+    });
+    sortedRecipeIngredients.forEach((ingredient, index) => {
+      if (sortedPantryIngredients[index] && sortedPantryIngredients[index].amount + parseInt(ingredient.ingredientModification) > 0) {
+        toggleArray.push(true);
+      } else {
+        toggleArray.push(false);
       }
     })
+    let toggleDecider = toggleArray.find(element => {
+      return element === false;
+    });
+    console.log("User -> checkPantry -> toggleDecider", toggleDecider)
+    if (toggleDecider === undefined) {
+      toggle = true;
+    }
+    console.log("toggleArray", toggleArray)
     return toggle;
   }
 
@@ -66,20 +88,12 @@ class User {
     let pantryIds = this.pantry.map(index => index.ingredient);
     let recipeIngredientsFromPantry = [];
     recipeIngredients.forEach(ingredient => {
-      if (pantryIds.includes(ingredient.id)) {
         let index = pantryIds.indexOf(ingredient.id);
-        var ingredientData = {
-          userID: this.id,
-          ingredientID: ingredient.id,
-          ingredientModification: this.pantry[index].amount -= ingredient.quantity.amount
-        }
-      } else {
         var ingredientData = {
           userID: this.id,
           ingredientID: ingredient.id,
           ingredientModification: -ingredient.quantity.amount
         }
-      }
       recipeIngredientsFromPantry.push(ingredientData);
     })
     return recipeIngredientsFromPantry;
@@ -100,6 +114,29 @@ class User {
     return negativeGrocery;
     })
     return shoppingList;
+  }
+
+  cook(recipeID, recipeData) {
+    this.recipesToCook.forEach((recipeToCook, index) => {
+      if (recipeToCook.id === recipeID) {
+        this.recipesToCook.splice(index, 1);
+      }
+    });
+    let currentRecipe = recipeData.find(recipe => recipe.id === recipeID)
+    let ingredientsToRemove = this.returnAmount(currentRecipe.ingredients)
+    ingredientsToRemove.forEach(ingredient => {
+      let int = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(ingredient)
+      }
+      fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData', int)
+      .then(response => response.json())
+      .then(data => data)
+      .catch(err => console.log(err));
+    });
   }
 }
 

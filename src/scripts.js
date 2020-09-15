@@ -36,7 +36,7 @@ function onStartup() {
 }
 
 function fetchUserData() {
-  let userId = (Math.floor(Math.random() * 49) + 1);
+  let userId = 1;
   fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData")
   .then(response => response.json())
   .then(data => {
@@ -52,12 +52,18 @@ function fetchUserData() {
   .catch(err => console.log("err", err));
 }
 
-//<---------------------------------------------------------------
-
 function getFavorites() {
   if (user.favoriteRecipes.length) {
     user.favoriteRecipes.forEach(recipe => {
       document.querySelector(`.favorite${recipe.id}`).classList.add('favorite-active')
+    })
+  } else return
+}
+
+function getCookButtons() {
+  if (user.favoriteRecipes.length) {
+    user.favoriteRecipes.forEach(recipe => {
+      document.querySelector(`.cook-${recipe.id}`).classList.add('favorite-active')
     })
   } else return
 }
@@ -71,7 +77,10 @@ function cardButtonConditionals(event) {
     favButton.innerHTML = 'View Favorites';
     domUpdates.populateCards(recipeData, cardArea, user.favoriteRecipes);
   } else if (event.target.classList.contains('add-button')) {
-    addRecipieToCookList(event)
+    addRecipeToCookList(event);
+  }
+  else if (event.target.classList.contains('cook-button')) {
+    cookCard(event);
   }
 }
 
@@ -118,14 +127,26 @@ function favoriteCard(event) {
   }
 }
 
-function addRecipieToCookList(event) {
-  
+function cookCard(event) {
+  let targetedID = parseInt(event.target.id.slice(0, event.target.id.indexOf('-')));
+  console.log(targetedID);
+  let currentRecipe = recipeData.find(recipe => recipe.id === targetedID);
+  console.log('user.checkPantry(currentRecipe.ingredients)', user.checkPantry(currentRecipe.ingredients));
+  if (user.checkPantry(currentRecipe.ingredients)) {
+    user.cook(targetedID, recipeData);
+    // maybe populate with specific view
+    domUpdates.populateCards(recipeData, cardArea, user.favoriteRecipes);
+    alert("You cooked it! Sending you back to the home page...");
+  } else {
+    alert('You don\'t have all the ingredients for this recipe!');
+  }
+}
 
+function addRecipeToCookList(event) {
   let targetedID = event.target.id.slice(0, event.target.id.indexOf('-'));
   let specificRecipe = recipeData.find(recipe => recipe.id  === Number(targetedID));
   if (!user.recipesToCook.includes(specificRecipe)) {
     user.addToCategory(specificRecipe, "recipesToCook");
-
   }
 }
 
