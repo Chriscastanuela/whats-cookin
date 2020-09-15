@@ -116,7 +116,7 @@ class User {
     return shoppingList;
   }
 
-  cook(recipeID, recipeData) {
+  cook(recipeID, recipeData, userId) {
     this.recipesToCook.forEach((recipeToCook, index) => {
       if (recipeToCook.id === recipeID) {
         this.recipesToCook.splice(index, 1);
@@ -135,6 +135,17 @@ class User {
       fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData', int)
       .then(response => response.json())
       .then(data => data)
+      .then(
+        fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData")
+          .then(response => response.json())
+          .then(data => {
+            let userData = data.wcUsersData.find(user => {
+              return user.id === Number(userId);
+            });
+            this.pantry = userData.pantry;
+          })
+          .catch(err => console.log("err", err))
+      )
       .catch(err => console.log(err));
     });
   }
