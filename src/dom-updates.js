@@ -47,6 +47,7 @@ let domUpdates = {
         <header id='${recipe.id}-header' class='card-header'>
             <label for='add-button' class='hidden'>Click to add recipe</label>
             <button id='${recipe.id}-add' aria-label='add-button' class='add-button card-button'></button>
+            <button class='cook-button' id='${recipe.id}-cook'>Cook This!</button>
             <label for='favorite-button' class='hidden'>Click to favorite recipe</label>
             <button id='${recipe.id}-favorite' aria-label='favorite-button' class='favorite ${isFavorite} card-button'></button>
         </header>
