@@ -24,16 +24,14 @@ class Recipe {
   }
 
   gatherIngredients(ingredients) {
-return  ingredients.map(ingredient => {
-  return {
-    id: ingredient.id,
-    quantity: ingredient.quantity,
-    name: ingredientsData.find(ingredientItem => ingredientItem.id === ingredient.id).name
+    return  ingredients.map(ingredient => {
+      return {
+        id: ingredient.id,
+        quantity: ingredient.quantity,
+        name: ingredientsData.find(ingredientItem => ingredientItem.id === ingredient.id).name
+      }
+    })
   }
-})
-
-}
-
 }
 
 export default Recipe;

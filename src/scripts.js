@@ -29,11 +29,11 @@ window.onload =
               userData = data.wcUsersData.find(user => {
                 return user.id === Number(userId);
               })
-            onStartup()
+              onStartup()
             })
             .catch(err => console.log("err", err))
+        )
         .catch(err => console.log("err", err))
-      )
     )
     .catch(err => console.log("err", err));
 homeButton.addEventListener('click', cardButtonConditionals);
@@ -59,15 +59,7 @@ function getFavorites() {
     user.favoriteRecipes.forEach(recipe => {
       document.querySelector(`.favorite${recipe.id}`).classList.add('favorite-active')
     })
-  } else return
-}
-
-function getCookButtons() {
-  if (user.favoriteRecipes.length) {
-    user.favoriteRecipes.forEach(recipe => {
-      document.querySelector(`.cook-${recipe.id}`).classList.add('favorite-active')
-    })
-  } else return
+  }
 }
 
 function cardButtonConditionals(event) {
@@ -80,8 +72,7 @@ function cardButtonConditionals(event) {
     domUpdates.populateCards(recipeData, cardArea, user.favoriteRecipes);
   } else if (event.target.classList.contains('add-button')) {
     addRecipeToCookList(event);
-  }
-  else if (event.target.classList.contains('cook-button')) {
+  } else if (event.target.classList.contains('cook-button')) {
     cookCard(event);
   }
 }
@@ -91,13 +82,13 @@ function viewFavorites() {
     domUpdates.removeAll(cardArea);
   }
   if (!user.favoriteRecipes.length) {
-  domUpdates.showNoFavorites(favButton);
+    domUpdates.showNoFavorites(favButton);
     domUpdates.populateCards(recipeData, cardArea);
     return
     // we can use break if we are not trying to return anything
   } else {
-  domUpdates.populateCards(user.favoriteRecipes, cardArea, user.favoriteRecipes);
-  domUpdates.refreshFavorites(favButton);
+    domUpdates.populateCards(user.favoriteRecipes, cardArea, user.favoriteRecipes);
+    domUpdates.refreshFavorites(favButton);
   }
 }
 
@@ -131,9 +122,7 @@ function favoriteCard(event) {
 
 function cookCard(event) {
   let targetedID = parseInt(event.target.id.slice(0, event.target.id.indexOf('-')));
-  console.log(targetedID);
   let currentRecipe = recipeData.find(recipe => recipe.id === targetedID);
-  console.log('user.checkPantry(currentRecipe.ingredients)', user.checkPantry(currentRecipe.ingredients));
   if (user.checkPantry(currentRecipe.ingredients)) {
     user.cook(targetedID, recipeData, userId);
     // maybe populate with specific view

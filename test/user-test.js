@@ -217,14 +217,13 @@ describe('User', () => {
         }
       ],
       "instructions": [{
-          "instruction": "Saute the zucchini in the olive oil on high heat. Season generously with salt and pepper. Stir and leave alone for a little while, so you get a little bit of texture from the browning on the zucchini.While you’re sauteing, toast the flatbread in the oven at 400 degrees.When the zucchini is soft and just slightly browned, remove from the heat. Take the flatbread out of the oven and spread the zucchini on the flatbread.Top with the fresh tomatoes, cheese, and fresh basil.",
-          "number": 1
-        },
-        {
-          "instruction": "Cut, serve, and enjoy!",
-          "number": 2
-        }
-      ],
+        "instruction": "Saute the zucchini in the olive oil on high heat. Season generously with salt and pepper. Stir and leave alone for a little while, so you get a little bit of texture from the browning on the zucchini.While you’re sauteing, toast the flatbread in the oven at 400 degrees.When the zucchini is soft and just slightly browned, remove from the heat. Take the flatbread out of the oven and spread the zucchini on the flatbread.Top with the fresh tomatoes, cheese, and fresh basil.",
+        "number": 1
+      },
+      {
+        "instruction": "Cut, serve, and enjoy!",
+        "number": 2
+      }],
       "name": "Farmer’s Market Flatbread Pizza",
       "tags": [
         "side dish"
@@ -284,73 +283,73 @@ describe('User', () => {
 
   it('9. Should be able to give you a list of what ingredients a user needs to buy and how much it will cost for a given recipe', () => {
     expect(user2.returnShoppingList(recipeOne.ingredients, ingredientsData)).to.eql([
-    {
-      userID: 1,
-      ingredientID: 20081,
-      ingredientModification: -1.5,
-      groceryListCost: -307.5
-    },
-    {
-      userID: 1,
-      ingredientID: 18372,
-      ingredientModification: -0.5,
-      groceryListCost: -102.5
-    },
-    {
-      userID: 1,
-      ingredientID: 1123,
-      ingredientModification: -1,
-      groceryListCost: -205
-    },
-    {
-      userID: 1,
-      ingredientID: 19335,
-      ingredientModification: -0.5,
-      groceryListCost: -102.5
-    },
-    {
-      userID: 1,
-      ingredientID: 19206,
-      ingredientModification: -3,
-      groceryListCost: -615
-    },
-    {
-      userID: 1,
-      ingredientID: 19334,
-      ingredientModification: -0.5,
-      groceryListCost: -102.5
-    },
-    {
-      userID: 1,
-      ingredientID: 2047,
-      ingredientModification: -0.5,
-      groceryListCost: -102.5
-    },
-    {
-      userID: 1,
-      ingredientID: 1012047,
-      ingredientModification: -24,
-      groceryListCost: -4920
-    },
-    {
-      userID: 1,
-      ingredientID: 10019903,
-      ingredientModification: -2,
-      groceryListCost: -410
-    },
-    {
-      userID: 1,
-      ingredientID: 1145,
-      ingredientModification: -0.5,
-      groceryListCost: -102.5
-    },
-    {
-      userID: 1,
-      ingredientID: 2050,
-      ingredientModification: -0.5,
-      groceryListCost: -102.5
-    }
-  ])
+      {
+        userID: 1,
+        ingredientID: 20081,
+        ingredientModification: -1.5,
+        groceryListCost: -307.5
+      },
+      {
+        userID: 1,
+        ingredientID: 18372,
+        ingredientModification: -0.5,
+        groceryListCost: -102.5
+      },
+      {
+        userID: 1,
+        ingredientID: 1123,
+        ingredientModification: -1,
+        groceryListCost: -205
+      },
+      {
+        userID: 1,
+        ingredientID: 19335,
+        ingredientModification: -0.5,
+        groceryListCost: -102.5
+      },
+      {
+        userID: 1,
+        ingredientID: 19206,
+        ingredientModification: -3,
+        groceryListCost: -615
+      },
+      {
+        userID: 1,
+        ingredientID: 19334,
+        ingredientModification: -0.5,
+        groceryListCost: -102.5
+      },
+      {
+        userID: 1,
+        ingredientID: 2047,
+        ingredientModification: -0.5,
+        groceryListCost: -102.5
+      },
+      {
+        userID: 1,
+        ingredientID: 1012047,
+        ingredientModification: -24,
+        groceryListCost: -4920
+      },
+      {
+        userID: 1,
+        ingredientID: 10019903,
+        ingredientModification: -2,
+        groceryListCost: -410
+      },
+      {
+        userID: 1,
+        ingredientID: 1145,
+        ingredientModification: -0.5,
+        groceryListCost: -102.5
+      },
+      {
+        userID: 1,
+        ingredientID: 2050,
+        ingredientModification: -0.5,
+        groceryListCost: -102.5
+      }
+    ])
   });
   
   it('10. Should check quantities for each ingredient', () => {

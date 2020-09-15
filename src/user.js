@@ -44,12 +44,12 @@ class User {
       let foundIngredients = recipeIds.find(recipeID => {
         return ingredient.ingredient === recipeID;
       });
-      return foundIngredients != undefined; 
+      return foundIngredients !== undefined; 
     });
 
     let sortedPantryIngredients = pantryIngredientsInRecipe.sort((ingredientA, ingredientB) => {
-        return ingredientA.ingredient - ingredientB.ingredient;
-      })
+      return ingredientA.ingredient - ingredientB.ingredient;
+    })
     let sortedRecipeIngredients = recipeIngredientsForRecipe.sort((ingredientA, ingredientB) => {
       return ingredientA.ingredientID - ingredientB.ingredientID;
     });
@@ -57,31 +57,26 @@ class User {
       if (sortedPantryIngredients[index] && sortedPantryIngredients[index].amount + parseInt(ingredient.ingredientModification) >= 0) {
         toggleArray.push(true);
       } else {
-        console.log("User -> checkPantry -> ingredient", ingredient)
         toggleArray.push(false);
       }
     })
     let toggleDecider = toggleArray.find(element => {
       return element === false;
     });
-    console.log("User -> checkPantry -> toggleDecider", toggleDecider)
     if (toggleDecider === undefined) {
       toggle = true;
     }
-    console.log("toggleArray", toggleArray)
     return toggle;
   }
 
   returnAmount(recipeIngredients) {
-    let pantryIds = this.pantry.map(index => index.ingredient);
     let recipeIngredientsFromPantry = [];
     recipeIngredients.forEach(ingredient => {
-        let index = pantryIds.indexOf(ingredient.id);
-        var ingredientData = {
-          userID: this.id,
-          ingredientID: ingredient.id,
-          ingredientModification: -ingredient.quantity.amount
-        }
+      var ingredientData = {
+        userID: this.id,
+        ingredientID: ingredient.id,
+        ingredientModification: -ingredient.quantity.amount
+      }
       recipeIngredientsFromPantry.push(ingredientData);
     })
     return recipeIngredientsFromPantry;
@@ -95,12 +90,12 @@ class User {
     let foundIngredients = [];
     let shoppingList = notEnoughGroceries.map(negativeGrocery => {
       let foundIngredient = ingredientsData.find(ingredient => {
-      return ingredient.id == negativeGrocery.id;
-    })
-    foundIngredients.push(foundIngredient);
-    negativeGrocery.groceryListCost = foundIngredients[foundIngredients.length-1].estimatedCostInCents * negativeGrocery.ingredientModification;
-    return negativeGrocery;
-    })
+        return ingredient.id === negativeGrocery.id;
+      });
+      foundIngredients.push(foundIngredient);
+      negativeGrocery.groceryListCost = foundIngredients[foundIngredients.length - 1].estimatedCostInCents * negativeGrocery.ingredientModification;
+      return negativeGrocery;
+    });
     return shoppingList;
   }
 
@@ -121,20 +116,20 @@ class User {
         body: JSON.stringify(ingredient)
       }
       fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData', int)
-      .then(response => response.json())
-      .then(data => data)
-      .then(
-        fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData")
-          .then(response => response.json())
-          .then(data => {
-            let userData = data.wcUsersData.find(user => {
-              return user.id === Number(userId);
-            });
-            this.pantry = userData.pantry;
-          })
-          .catch(err => console.log("err", err))
-      )
-      .catch(err => console.log(err));
+        .then(response => response.json())
+        .then(data => data)
+        .then(
+          fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData")
+            .then(response => response.json())
+            .then(data => {
+              let userData = data.wcUsersData.find(user => {
+                return user.id === Number(userId);
+              });
+              this.pantry = userData.pantry;
+            })
+            .catch(err => console.log("err", err))
+        )
+        .catch(err => console.log(err));
     });
   }
 }
