@@ -130,9 +130,19 @@ function favoriteCard(event) {
 }
 
 function cookCard(event) {
-  let targetedID = event.target.id.slice(0, event.target.id.indexOf('-'));
+  let targetedID = parseInt(event.target.id.slice(0, event.target.id.indexOf('-')));
   console.log(targetedID);
-  user.cook(targetedID, recipeData);
+  let currentRecipe = recipeData.find(recipe => recipe.id === targetedID);
+  // console.log("currentRecipe", currentRecipe);
+  console.log('user.checkPantry(currentRecipe.ingredients)', user.checkPantry(currentRecipe.ingredients));
+  if (user.checkPantry(currentRecipe.ingredients)) {
+    user.cook(targetedID, recipeData);
+    // maybe populate with specific view
+    domUpdates.populateCards(recipeData, cardArea, user.favoriteRecipes);
+    alert("You cooked it! Sending you back to the home page...");
+  } else {
+    alert('You don\'t have all the ingredients for this recipe!');
+  }
 }
 
 function addRecipeToCookList(event) {

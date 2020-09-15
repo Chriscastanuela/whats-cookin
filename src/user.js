@@ -33,53 +33,108 @@ class User {
     });
   }
 
+  // checkPantry(recipeIngredients) {
+  //   let toggle = true;
+  //   let pantryIds = this.pantry.map(index => {
+  //     return index.ingredient;
+  //   })
+  //   let recipeIds = recipeIngredients.map(index => {
+  //     return index.id;
+  //   })
+  //   let pantryIngredientsInRecipe = this.pantry.filter(ingredient => {
+  //     return recipeIds.find(recipeID => {
+  //       console.log(ingredient.id === recipeID)
+  //       return ingredient.id === recipeID;
+  //     });
+  //   });
+
+  //   let newArray = [];
+  //   let theMap
+  //   let pantryIngredientsInRecipe = this.pantry.forEach(ingredient => {
+  //     theMap = recipeIngredients.map(i => {
+  //       if (ingredient.id == i.id) {
+  //         return ingredient;
+  //       }
+  //     })
+  //     newArray.push(theMap[0])
+  //   });
+
+  //   recipeIds.forEach(index => {
+  //     if (!pantryIds.includes(index)) {
+  //       toggle = false
+  //     }
+  //   })
+  //   console.log(pantryIngredientsInRecipe)
+  //   let sortedPantryIngredients = pantryIngredientsInRecipe.sort((ingredientA, ingredientB) => {
+  //     return ingredientA.id - ingredientB.id;
+  //   })
+  //   let sortedRecipeIngredients = recipeIngredients.sort((ingredientA, ingredientB) => {
+  //     return ingredientA.id - ingredientB.id;
+  //   });
+  //   // console.log("User -> checkPantry -> sortedPantryIngredients", sortedPantryIngredients)
+  //   // console.log("User -> checkPantry -> sortedRecipeIngredients", sortedRecipeIngredients)
+  //   sortedRecipeIngredients.forEach((recipeIngredient, index) => {
+  //     if (recipeIngredient.quantity.amount > sortedPantryIngredients[index].amount) {
+  //       toggle = false;
+  //     }
+  //   })
+  //   return toggle;
+  // }
+
+
+  
+// check pantry refactor
+
   checkPantry(recipeIngredients) {
-    let toggle = true;
-    let pantryIds = this.pantry.map(index => {
-      return index.ingredient;
-    })
+    let toggle = false;
+    let toggleArray = []
+    let recipeIngredientsForRecipe = this.returnAmount(recipeIngredients)
     let recipeIds = recipeIngredients.map(index => {
       return index.id;
-    })
+    });
+    // console.log('recipeIds', recipeIds)
+    // console.log('recipeIngredients', recipeIngredients);
     let pantryIngredientsInRecipe = this.pantry.filter(ingredient => {
-      return recipeIds.find(recipeID => {
-        console.log(ingredient.id === recipeID)
-        return ingredient.id === recipeID;
+      let foundIngredients = recipeIds.find(recipeID => {
+        return ingredient.ingredient === recipeID;
       });
+      // console.log(foundIngredients);
+      return foundIngredients != undefined; 
     });
 
-    let newArray = [];
-    let theMap
-    let pantryIngredientsInRecipe = this.pantry.forEach(ingredient => {
-      theMap = recipeIngredients.map(i => {
-        if (ingredient.id == i.id) {
-          return ingredient;
-        }
-      })
-      newArray.push(theMap[0])
-    });
-
-    recipeIds.forEach(index => {
-      if (!pantryIds.includes(index)) {
-        toggle = false
-      }
-    })
-    console.log(pantryIngredientsInRecipe)
     let sortedPantryIngredients = pantryIngredientsInRecipe.sort((ingredientA, ingredientB) => {
-      return ingredientA.id - ingredientB.id;
-    })
-    let sortedRecipeIngredients = recipeIngredients.sort((ingredientA, ingredientB) => {
-      return ingredientA.id - ingredientB.id;
+        return ingredientA.ingredient - ingredientB.ingredient;
+      })
+    let sortedRecipeIngredients = recipeIngredientsForRecipe.sort((ingredientA, ingredientB) => {
+      return ingredientA.ingredientID - ingredientB.ingredientID;
     });
     // console.log("User -> checkPantry -> sortedPantryIngredients", sortedPantryIngredients)
     // console.log("User -> checkPantry -> sortedRecipeIngredients", sortedRecipeIngredients)
-    sortedRecipeIngredients.forEach((recipeIngredient, index) => {
-      if (recipeIngredient.quantity.amount > sortedPantryIngredients[index].amount) {
-        toggle = false;
+    // console.log('pantryIngredientsInRecipe',pantryIngredientsInRecipe)
+    sortedRecipeIngredients.forEach((ingredient, index) => {
+      // console.log(`pantryIngredientsInRecipe[${index}]`, sortedPantryIngredients[index])
+      // console.log("ingredient.ingredientModifcation", ingredient.ingredientModification)
+      // console.log("User -> checkPantry -> sortedPantryIngredients[index].amount + ingredient.ingredientModifcation", sortedPantryIngredients[index].amount + parseInt(ingredient.ingredientModification))
+      if (sortedPantryIngredients[index] && sortedPantryIngredients[index].amount + parseInt(ingredient.ingredientModification) > 0) {
+        toggleArray.push(true);
+      } else {
+        toggleArray.push(false);
       }
     })
+    let toggleDecider = toggleArray.find(element => {
+      return element === false;
+    });
+    console.log("User -> checkPantry -> toggleDecider", toggleDecider)
+    if (toggleDecider === undefined) {
+      toggle = true;
+    }
+    console.log("toggleArray", toggleArray)
     return toggle;
   }
+
+
+
+
 
   cookMeal(recipeIngredients) {
     if (!this.checkPantry(recipeIngredients)) {
@@ -98,20 +153,21 @@ class User {
     let pantryIds = this.pantry.map(index => index.ingredient);
     let recipeIngredientsFromPantry = [];
     recipeIngredients.forEach(ingredient => {
-      if (pantryIds.includes(ingredient.id)) {
+      // if (pantryIds.includes(ingredient.id)) {
         let index = pantryIds.indexOf(ingredient.id);
         var ingredientData = {
           userID: this.id,
           ingredientID: ingredient.id,
-          ingredientModification: this.pantry[index].amount -= ingredient.quantity.amount
-        }
-      } else {
-        var ingredientData = {
-          userID: this.id,
-          ingredientID: ingredient.id,
           ingredientModification: -ingredient.quantity.amount
+          // ingredientModification: this.pantry[index].amount -= ingredient.quantity.amount
         }
-      }
+      // } else {
+      //   var ingredientData = {
+      //     userID: this.id,
+      //     ingredientID: ingredient.id,
+      //     ingredientModification: -ingredient.quantity.amount
+      //   }
+      // }
       recipeIngredientsFromPantry.push(ingredientData);
     })
     return recipeIngredientsFromPantry;
@@ -140,11 +196,8 @@ class User {
         this.recipesToCook.splice(index, 1);
       }
     });
-    console.log(recipeData[0].id)
-    console.log(recipeID)
-    let currentRecipe = recipeData[0]
-    // = recipeData.find(recipe => recipe.id === recipeID)
-    console.log(currentRecipe);
+    // let currentRecipe = recipeData[0]
+    let currentRecipe = recipeData.find(recipe => recipe.id === recipeID)
     let ingredientsToRemove = this.returnAmount(currentRecipe.ingredients)
     ingredientsToRemove.forEach(ingredient => {
       let int = {
