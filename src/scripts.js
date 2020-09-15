@@ -36,7 +36,7 @@ function onStartup() {
 }
 
 function fetchUserData() {
-  let userId = (Math.floor(Math.random() * 49) + 1);
+  let userId = 1;
   fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData")
   .then(response => response.json())
   .then(data => {
@@ -62,6 +62,14 @@ function getFavorites() {
   } else return
 }
 
+function getCookButtons() {
+  if (user.favoriteRecipes.length) {
+    user.favoriteRecipes.forEach(recipe => {
+      document.querySelector(`.cook-${recipe.id}`).classList.add('favorite-active')
+    })
+  } else return
+}
+
 function cardButtonConditionals(event) {
   if (event.target.classList.contains('favorite')) {
     favoriteCard(event);
@@ -71,7 +79,10 @@ function cardButtonConditionals(event) {
     favButton.innerHTML = 'View Favorites';
     domUpdates.populateCards(recipeData, cardArea, user.favoriteRecipes);
   } else if (event.target.classList.contains('add-button')) {
-    addRecipieToCookList(event)
+    addRecipeToCookList(event);
+  }
+  else if (event.target.classList.contains('cook-button')) {
+    cookCard(event);
   }
 }
 
@@ -118,14 +129,17 @@ function favoriteCard(event) {
   }
 }
 
-function addRecipieToCookList(event) {
-  
+function cookCard(event) {
+  let targetedID = event.target.id.slice(0, event.target.id.indexOf('-'));
+  console.log(targetedID);
+  user.cook(targetedID, recipeData);
+}
 
+function addRecipeToCookList(event) {
   let targetedID = event.target.id.slice(0, event.target.id.indexOf('-'));
   let specificRecipe = recipeData.find(recipe => recipe.id  === Number(targetedID));
   if (!user.recipesToCook.includes(specificRecipe)) {
     user.addToCategory(specificRecipe, "recipesToCook");
-
   }
 }
 
