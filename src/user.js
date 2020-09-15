@@ -41,9 +41,41 @@ class User {
     let recipeIds = recipeIngredients.map(index => {
       return index.id;
     })
+    let pantryIngredientsInRecipe = this.pantry.filter(ingredient => {
+      return recipeIds.find(recipeID => {
+        console.log(ingredient.id === recipeID)
+        return ingredient.id === recipeID;
+      });
+    });
+
+    let newArray = [];
+    let theMap
+    let pantryIngredientsInRecipe = this.pantry.forEach(ingredient => {
+      theMap = recipeIngredients.map(i => {
+        if (ingredient.id == i.id) {
+          return ingredient;
+        }
+      })
+      newArray.push(theMap[0])
+    });
+
     recipeIds.forEach(index => {
       if (!pantryIds.includes(index)) {
         toggle = false
+      }
+    })
+    console.log(pantryIngredientsInRecipe)
+    let sortedPantryIngredients = pantryIngredientsInRecipe.sort((ingredientA, ingredientB) => {
+      return ingredientA.id - ingredientB.id;
+    })
+    let sortedRecipeIngredients = recipeIngredients.sort((ingredientA, ingredientB) => {
+      return ingredientA.id - ingredientB.id;
+    });
+    // console.log("User -> checkPantry -> sortedPantryIngredients", sortedPantryIngredients)
+    // console.log("User -> checkPantry -> sortedRecipeIngredients", sortedRecipeIngredients)
+    sortedRecipeIngredients.forEach((recipeIngredient, index) => {
+      if (recipeIngredient.quantity.amount > sortedPantryIngredients[index].amount) {
+        toggle = false;
       }
     })
     return toggle;
@@ -100,6 +132,33 @@ class User {
     return negativeGrocery;
     })
     return shoppingList;
+  }
+
+  cook(recipeID, recipeData) {
+    this.recipesToCook.forEach((recipeToCook, index) => {
+      if (recipeToCook.id === recipeID) {
+        this.recipesToCook.splice(index, 1);
+      }
+    });
+    console.log(recipeData[0].id)
+    console.log(recipeID)
+    let currentRecipe = recipeData[0]
+    // = recipeData.find(recipe => recipe.id === recipeID)
+    console.log(currentRecipe);
+    let ingredientsToRemove = this.returnAmount(currentRecipe.ingredients)
+    ingredientsToRemove.forEach(ingredient => {
+      let int = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(ingredient)
+      }
+      fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData', int)
+      .then(response => response.json())
+      .then(data => console.log(this.recipesToCook))
+      // .catch(err => alert('You don\'t have enough ingredients for this recipe! Error:', err));
+    });
   }
 }
 

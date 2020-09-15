@@ -1,9 +1,13 @@
-import { expect } from 'chai';
+const chai = require('chai');
+const expect = chai.expect;
+const spies = require('chai-spies');
 
 import User from '../src/user.js';
 import recipeData from '../src/data/recipes.js'
 import Recipe from '../src/recipe.js';
 import ingredientsData from '../src/data/ingredients';
+
+chai.use(spies);
 
 let user1, user2, recipeFortySeven, recipeOne;
 
@@ -140,7 +144,11 @@ describe('User', () => {
     recipeFortySeven = new Recipe(recipeData[47], ingredientsData);
 
     recipeOne = new Recipe(recipeData[0], ingredientsData);
+    chai.spy.on(user1, ['cook'], () => true);
+  });
 
+  afterEach(() => {
+    chai.spy.restore(user1);
   });
 
   it('1. Should have a property of favoriteRecipes with a default value', () => {
@@ -173,7 +181,7 @@ describe('User', () => {
     expect(user1.findInCategory('egg', 'favoriteRecipes')).to.eql([recipeData[0]]);
   });
 
-  it('7. Should be able to check the pantry and tell you if you have the ingredients for a given recipe', () => {
+  it.only('7. Should be able to check the pantry and tell you if you have the ingredients for a given recipe', () => {
     
     expect(user1.checkPantry(recipeOne.ingredients)).to.eql(true);
 
@@ -237,5 +245,10 @@ describe('User', () => {
       { userID: 1, ingredientID: 1145, ingredientModification: 0 },
       { userID: 1, ingredientID: 2050, ingredientModification: 0 }
     ]);
+  });
+
+  it('can cook a recipe', () => {
+    user1.cook(recipeData[47]);
+    expect(user1.cook).to.have.been.called(1);
   });
 });
