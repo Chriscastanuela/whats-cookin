@@ -21,7 +21,7 @@ A project by Brett Merritt, Ian Holladay, and Christopher Castanuela
 
 ## Final Version
 
-![site](https://media4.giphy.com/media/SYjBYeUfebSOZZGXlo/giphy.gif)
+![site](./readMeAssets/site.gif)
 
 ## Successes
 
