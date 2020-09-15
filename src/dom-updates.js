@@ -25,13 +25,13 @@ let domUpdates = {
       });
     } else {
       fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/recipes/recipeData')
-      .then(response => response.json())
-      .then(data => {
-        data.recipeData.forEach(recipe => {
-          this.renderCards(recipe, cardArea, userFavorites);
-        });
-      })
-      .catch(err => console.log("err", err));
+        .then(response => response.json())
+        .then(data => {
+          data.recipeData.forEach(recipe => {
+            this.renderCards(recipe, cardArea, userFavorites);
+          });
+        })
+        .catch(err => console.log("err", err));
     }
   },
 
@@ -119,7 +119,7 @@ let domUpdates = {
     })
     recipe.instructions.forEach(instruction => {
       instructionsSpan.insertAdjacentHTML('beforebegin', 
-      `<li>${instruction.instruction}</li>`)
+        `<li>${instruction.instruction}</li>`)
     })
   },
 

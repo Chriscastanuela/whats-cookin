@@ -13,7 +13,8 @@ let cardArea = document.querySelector('.all-cards');
 let searchButtons = document.querySelector('.search-buttons');
 let searchBar = document.querySelector('.search-any');
 
-let user, pantry, newUser, recipeData, ingredientsData;
+let user, pantry, userData, recipeData, ingredientsData;
+let userId = 1;
 
 window.onload = 
   fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/recipes/recipeData')
@@ -23,9 +24,19 @@ window.onload =
       fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/ingredients/ingredientsData')
         .then(response => response.json())
         .then(data => ingredientsData = data)
+        .then(
+          fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData")
+            .then(response => response.json())
+            .then(data => {
+              userData = data.wcUsersData.find(user => {
+                return user.id === Number(userId);
+              })
+              onStartup()
+            })
+            .catch(err => console.log("err", err))
+        )
         .catch(err => console.log("err", err))
     )
-    .then(onStartup())
     .catch(err => console.log("err", err));
 homeButton.addEventListener('click', cardButtonConditionals);
 favButton.addEventListener('click', viewFavorites);
@@ -34,25 +45,16 @@ recipesToCookButton.addEventListener('click', viewRecipiesToCook);
 searchButtons.addEventListener('click', searchRecipes);
 
 function onStartup() {
-  fetchUserData();
+  setUserData();
   domUpdates.populateCards(recipeData, cardArea);
 }
 
-function fetchUserData() {
-  let userId = 1;
-  fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData")
-  .then(response => response.json())
-  .then(data => {
-  newUser = data.wcUsersData.find(user => {
-    return user.id === Number(userId);
-  });
-  user = new User(userId, newUser.name, newUser.pantry);
-  pantry = new Pantry(newUser.pantry);
+function setUserData() {
+  user = new User(userId, userData.name, userData.pantry);
+  pantry = new Pantry(userData.pantry);
   domUpdates.populateCards(recipeData, cardArea, user.favoriteRecipes);
   domUpdates.greetUser(user.name);
   getFavorites();
-})
-  .catch(err => console.log("err", err));
 }
 
 function searchRecipes(event) {
@@ -76,15 +78,7 @@ function getFavorites() {
     user.favoriteRecipes.forEach(recipe => {
       document.querySelector(`.favorite${recipe.id}`).classList.add('favorite-active')
     })
-  } else return
-}
-
-function getCookButtons() {
-  if (user.favoriteRecipes.length) {
-    user.favoriteRecipes.forEach(recipe => {
-      document.querySelector(`.cook-${recipe.id}`).classList.add('favorite-active')
-    })
-  } else return
+  }
 }
 
 function cardButtonConditionals(event) {
@@ -97,8 +91,7 @@ function cardButtonConditionals(event) {
     domUpdates.populateCards(recipeData, cardArea, user.favoriteRecipes);
   } else if (event.target.classList.contains('add-button')) {
     addRecipeToCookList(event);
-  }
-  else if (event.target.classList.contains('cook-button')) {
+  } else if (event.target.classList.contains('cook-button')) {
     cookCard(event);
   }
 }
@@ -108,13 +101,13 @@ function viewFavorites() {
     domUpdates.removeAll(cardArea);
   }
   if (!user.favoriteRecipes.length) {
-  domUpdates.showNoFavorites(favButton);
+    domUpdates.showNoFavorites(favButton);
     domUpdates.populateCards(recipeData, cardArea);
     return
     // we can use break if we are not trying to return anything
   } else {
-  domUpdates.populateCards(user.favoriteRecipes, cardArea, user.favoriteRecipes);
-  domUpdates.refreshFavorites(favButton);
+    domUpdates.populateCards(user.favoriteRecipes, cardArea, user.favoriteRecipes);
+    domUpdates.refreshFavorites(favButton);
   }
 }
 
@@ -148,11 +141,9 @@ function favoriteCard(event) {
 
 function cookCard(event) {
   let targetedID = parseInt(event.target.id.slice(0, event.target.id.indexOf('-')));
-  console.log(targetedID);
   let currentRecipe = recipeData.find(recipe => recipe.id === targetedID);
-  console.log('user.checkPantry(currentRecipe.ingredients)', user.checkPantry(currentRecipe.ingredients));
   if (user.checkPantry(currentRecipe.ingredients)) {
-    user.cook(targetedID, recipeData);
+    user.cook(targetedID, recipeData, userId);
     // maybe populate with specific view
     domUpdates.populateCards(recipeData, cardArea, user.favoriteRecipes);
     alert("You cooked it! Sending you back to the home page...");

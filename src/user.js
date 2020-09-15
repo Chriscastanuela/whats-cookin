@@ -57,17 +57,17 @@ searchRecipies(stringToSearch, property) {
       let foundIngredients = recipeIds.find(recipeID => {
         return ingredient.ingredient === recipeID;
       });
-      return foundIngredients != undefined; 
+      return foundIngredients !== undefined; 
     });
 
     let sortedPantryIngredients = pantryIngredientsInRecipe.sort((ingredientA, ingredientB) => {
-        return ingredientA.ingredient - ingredientB.ingredient;
-      })
+      return ingredientA.ingredient - ingredientB.ingredient;
+    })
     let sortedRecipeIngredients = recipeIngredientsForRecipe.sort((ingredientA, ingredientB) => {
       return ingredientA.ingredientID - ingredientB.ingredientID;
     });
     sortedRecipeIngredients.forEach((ingredient, index) => {
-      if (sortedPantryIngredients[index] && sortedPantryIngredients[index].amount + parseInt(ingredient.ingredientModification) > 0) {
+      if (sortedPantryIngredients[index] && sortedPantryIngredients[index].amount + parseInt(ingredient.ingredientModification) >= 0) {
         toggleArray.push(true);
       } else {
         toggleArray.push(false);
@@ -76,37 +76,20 @@ searchRecipies(stringToSearch, property) {
     let toggleDecider = toggleArray.find(element => {
       return element === false;
     });
-    console.log("User -> checkPantry -> toggleDecider", toggleDecider)
     if (toggleDecider === undefined) {
       toggle = true;
     }
-    console.log("toggleArray", toggleArray)
     return toggle;
   }
 
-  cookMeal(recipeIngredients) {
-    if (!this.checkPantry(recipeIngredients)) {
-      return "Not enough ingredients for this"
-    }
-    recipeIngredients.forEach(ingredient => {
-      this.pantry.forEach(index => {
-        if (index.ingredient == ingredient.id) {
-          index.amount -= ingredient.quantity.amount;
-        } 
-      })
-    })
-  }
-
   returnAmount(recipeIngredients) {
-    let pantryIds = this.pantry.map(index => index.ingredient);
     let recipeIngredientsFromPantry = [];
     recipeIngredients.forEach(ingredient => {
-        let index = pantryIds.indexOf(ingredient.id);
-        var ingredientData = {
-          userID: this.id,
-          ingredientID: ingredient.id,
-          ingredientModification: -ingredient.quantity.amount
-        }
+      var ingredientData = {
+        userID: this.id,
+        ingredientID: ingredient.id,
+        ingredientModification: -ingredient.quantity.amount
+      }
       recipeIngredientsFromPantry.push(ingredientData);
     })
     return recipeIngredientsFromPantry;
@@ -120,16 +103,16 @@ searchRecipies(stringToSearch, property) {
     let foundIngredients = [];
     let shoppingList = notEnoughGroceries.map(negativeGrocery => {
       let foundIngredient = ingredientsData.find(ingredient => {
-      return ingredient.id == negativeGrocery.id;
-    })
-    foundIngredients.push(foundIngredient);
-    negativeGrocery.groceryListCost = foundIngredients[foundIngredients.length-1].estimatedCostInCents * negativeGrocery.ingredientModification;
-    return negativeGrocery;
-    })
+        return ingredient.id === negativeGrocery.id;
+      });
+      foundIngredients.push(foundIngredient);
+      negativeGrocery.groceryListCost = foundIngredients[foundIngredients.length - 1].estimatedCostInCents * negativeGrocery.ingredientModification;
+      return negativeGrocery;
+    });
     return shoppingList;
   }
 
-  cook(recipeID, recipeData) {
+  cook(recipeID, recipeData, userId) {
     this.recipesToCook.forEach((recipeToCook, index) => {
       if (recipeToCook.id === recipeID) {
         this.recipesToCook.splice(index, 1);
@@ -146,9 +129,20 @@ searchRecipies(stringToSearch, property) {
         body: JSON.stringify(ingredient)
       }
       fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData', int)
-      .then(response => response.json())
-      .then(data => data)
-      .catch(err => console.log(err));
+        .then(response => response.json())
+        .then(data => data)
+        .then(
+          fetch("https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/users/wcUsersData")
+            .then(response => response.json())
+            .then(data => {
+              let userData = data.wcUsersData.find(user => {
+                return user.id === Number(userId);
+              });
+              this.pantry = userData.pantry;
+            })
+            .catch(err => console.log("err", err))
+        )
+        .catch(err => console.log(err));
     });
   }
 }
