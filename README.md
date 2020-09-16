@@ -60,9 +60,9 @@ A project by Brett Merritt, Ian Holladay, and Christopher Castanuela
 
 [Back to Main](#mainContents)
 
-> [Brett Merritt](https://github.com/bretm9)
-> [Ian Holladay](https://github.com/holladayian)
-> [Christopher Castanuela](https://github.com/Chriscastanuela?tab=repositories)
+> [Brett Merritt](https://github.com/bretm9)<br>
+> [Ian Holladay](https://github.com/holladayian)<br>
+> [Christopher Castanuela](https://github.com/Chriscastanuela?tab=repositories)<br>
 
 <!-- ## Deploying to GitHub Pages
 
