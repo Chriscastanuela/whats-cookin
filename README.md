@@ -1,6 +1,7 @@
 <a name="mainContents"></a>
 # What's Cookin'
 A project by Bret Merritt, Ian Holladay, and Christopher Castanuela
+[Link to Deployed Project Webpage](https://chriscastanuela.github.io/whats-cookin/)
 
 ![img](./readMeAssets/what's-cookin.gif)
 
