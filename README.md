@@ -1,6 +1,6 @@
 <a name="mainContents"></a>
 # What's Cookin'
-A project by Brett Merritt, Ian Holladay, and Christopher Castanuela
+A project by Bret Merritt, Ian Holladay, and Christopher Castanuela
 
 ![img](./readMeAssets/what's-cookin.gif)
 
@@ -49,9 +49,9 @@ A project by Brett Merritt, Ian Holladay, and Christopher Castanuela
 
 [Back to Main](#mainContents)
 <ul>
-    <li>Brett - </li>
-    <li>Ian - Working with and learning from Brett and Chris. We collaborated well and had a great symbiotic relationship throughout the project.</li>
-    <li>Chris - Working with Brett and Ian was awesome. They both had knowledge that I didn't have and we all really came together well to get the project completed.</li>
+    <li>Bret - I greatly appriciated my team! Chris and Ian and I really meshed well, and they both would bring new elements to the project that they'd worked on in their own time. They also really showed me how to have good Github workflow, especially when it came to commenting on pull requests.</li>
+    <li>Ian - Working with and learning from Bret and Chris. We collaborated well and had a great symbiotic relationship throughout the project.</li>
+    <li>Chris - Working with Bret and Ian was awesome. They both had knowledge that I didn't have and we all really came together well to get the project completed.</li>
 </ul>
 
 ### Links to the Authors
@@ -60,7 +60,7 @@ A project by Brett Merritt, Ian Holladay, and Christopher Castanuela
 
 [Back to Main](#mainContents)
 
-> [Brett Merritt](https://github.com/bretm9)<br>
+> [Bret Merritt](https://github.com/bretm9)<br>
 > [Ian Holladay](https://github.com/holladayian)<br>
 > [Christopher Castanuela](https://github.com/Chriscastanuela?tab=repositories)<br>
 
