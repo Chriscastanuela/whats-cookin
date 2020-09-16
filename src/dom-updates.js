@@ -1,15 +1,7 @@
-// import Recipe from './recipe';
-
-// import scripts from './scripts';
-
-// let favButton = document.querySelector('.view-favorites');
-// let cardArea = document.querySelector('.all-cards');
-
 let domUpdates = {
 
   greetUser(name) {
     const userName = document.querySelector('.user-name');
-    //should pull this querySelector out of function into global
     userName.innerHTML =
     `${name}`.split(' ')[0] + ' ' + `${name}`.split(' ')[1];
   },
@@ -71,26 +63,6 @@ let domUpdates = {
     recipesToCookButton.innerHTML = "You have no cooklist!";
   },
 
-  // displayFavorites(userFavorites, cardArea) {
-  //     cardArea.innerHTML = '';
-  //     userFavorites.forEach(recipe => {
-  //       cardArea.insertAdjacentHTML('afterbegin', 
-  //         `<article id='${recipe.id}-card' class='card'>
-  //           <header id='${recipe.id}-header' class='card-header'>
-  //             <label for='add-button' class='hidden'>Click to add recipe</label>
-  //             <button id='${recipe.id}-add' aria-label='add-button' class='add-button card-button'>
-  //             <label for='favorite-button' class='hidden'>Click to favorite recipe
-  //             </label>
-  //             <button id='${recipe.id}-favorite-button' aria-label='favorite-button' class='favorite favorite-active card-button'>
-  //             </button>
-  //           </header>
-  //           <article id='${recipe.id}-recipie-name' class='recipe-name'>${recipe.name}</article>
-  //           <img id='${recipe.id}-picture' tabindex='0' class='card-picture' src='${recipe.image}' alt='Food from recipe'>
-  //         </article>`)
-  //     });
-  //   // }
-  // },
-
   displayDirections(recipe, cost, cardArea) {
     cardArea.classList.add('all');
     cardArea.innerHTML = 
@@ -109,8 +81,6 @@ let domUpdates = {
       </p>`;
     let ingredientsSpan = document.querySelector('.ingredients');
     let instructionsSpan = document.querySelector('.instructions');
-    // should find a way to either make these selectors global or remove them
-    // if kept, change span and rename to not include element type in name
     recipe.ingredients.forEach(ingredient => {
       ingredientsSpan.insertAdjacentHTML('afterbegin', `<ul><li>
       ${ingredient.quantity.amount.toFixed(2)} ${ingredient.quantity.unit}

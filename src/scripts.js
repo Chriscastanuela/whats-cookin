@@ -14,7 +14,7 @@ let searchButtons = document.querySelector('.search-buttons');
 let searchBar = document.querySelector('.search-any');
 
 let user, pantry, userData, recipeData, ingredientsData;
-let userId = 1;
+let userId = ;
 
 window.onload = 
   fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/recipes/recipeData')
@@ -59,10 +59,8 @@ function setUserData() {
 
 function searchRecipes(event) {
   if (event.target.classList.contains('search-name')) {
-  // console.log('name', user.findInCategory(searchBar.value, 'name'))
   searchStuff('name')
   } else if (event.target.classList.contains('search-tag')) {
-    // console.log('tag', user.findInCategory(searchBar.value, 'tag'))
     searchStuff('tags')
     }
 }
@@ -104,7 +102,6 @@ function viewFavorites() {
     domUpdates.showNoFavorites(favButton);
     domUpdates.populateCards(recipeData, cardArea);
     return
-    // we can use break if we are not trying to return anything
   } else {
     domUpdates.populateCards(user.favoriteRecipes, cardArea, user.favoriteRecipes);
     domUpdates.refreshFavorites(favButton);
@@ -144,7 +141,6 @@ function cookCard(event) {
   let currentRecipe = recipeData.find(recipe => recipe.id === targetedID);
   if (user.checkPantry(currentRecipe.ingredients)) {
     user.cook(targetedID, recipeData, userId);
-    // maybe populate with specific view
     domUpdates.populateCards(recipeData, cardArea, user.favoriteRecipes);
     alert("You cooked it! Sending you back to the home page...");
   } else {
