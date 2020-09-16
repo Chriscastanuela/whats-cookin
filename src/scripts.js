@@ -14,7 +14,7 @@ let searchButtons = document.querySelector('.search-buttons');
 let searchBar = document.querySelector('.search-any');
 
 let user, pantry, userData, recipeData, ingredientsData;
-let userId = ;
+let userId = (Math.floor(Math.random() * 49) + 1);
 
 window.onload = 
   fetch('https://fe-apps.herokuapp.com/api/v1/whats-cookin/1911/recipes/recipeData')
